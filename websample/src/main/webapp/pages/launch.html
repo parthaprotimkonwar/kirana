@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+
+<html ng-app="ngAppCart">
+
+
+<head>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/CSS/custom.css" />
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/JS/angular.min.js"></script>
+    <script type="text/javascript" src="/JS/angular-route.js"></script> 
+    <script type="text/javascript" src="/JS/Launch.js"></script>
+    
+    <script>
+    function loadView()
+    {
+    	window.location = "#launch";
+    }
+    </script>
+
+  
+
+
+
+</head>
+
+<body onload="loadView()">
+
+    <div id="populateDiv" ng-controller="LaunchCtrl">
+    
+        <div id="header" ng-include src="'/pages/header.html'"></div>
+        <div id="footer" ng-include src="'/pages/footer.html'"></div>
+
+        <div id="groceryBg" class=" mainContentBg" style="">
+        </div>
+        
+        <div ng-view=""></div>
+        
+        </div>
+        
+        </body>
+
+</html>

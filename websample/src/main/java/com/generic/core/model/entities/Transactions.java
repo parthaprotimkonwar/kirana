@@ -1,0 +1,177 @@
+package com.generic.core.model.entities;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import static com.generic.core.utilities.Util.*;
+
+@Entity
+@Table(name="TRANSACTIONS")
+public class Transactions implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name="TXN_ID")
+	private String txnId;
+	
+	@Column(name="TXN_CREATED_TIME", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date txnCreatedTime;
+	
+	@Column(name="TXN_UPDATED_TIME", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date txnUpdatedTime;
+	
+	@Column(name="PREFERRED_DELIVERY_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date preferredDeliveryDate;
+	
+	@Column(name="PREFERRED_DELIVERY_TIMESLOT")
+	private String preferredDeliveryTimeSlot;
+	
+	@Column(name="ITEMS")
+	private String items;
+	
+	@Column(name="DELIVERY_ADDRESS")
+	private String deliveryAddress;
+	
+	@Column(name="PAYMENT_MODE")
+	private String paymentMode;
+	
+	@Column(name="PAYMENT_STATUS")
+	private String paymentStatus;
+	
+	@Column(name="DELIVERY_STATUS")
+	private String deliveryStatus;
+	
+	@ManyToOne
+	@JoinColumn(name="SHOP_ID")
+	private Shops shop;
+	
+	@ManyToOne
+	@JoinColumn(name="USER_ID")
+	private Users user;
+
+	public Transactions addTxnId(String txnId) {
+		setTxnId(txnId);
+		return this;
+	}
+	
+	public String getTxnId() {
+		return txnId;
+	}
+
+	public void setTxnId(String txnId) {
+		this.txnId = txnId;
+	}
+
+	public String getItems() {
+		return items;
+	}
+
+	public void setItems(String items) {
+		if(!isNullAndEmpty(items))
+			this.items = items;
+	}
+
+	public String getDeliveryAddress() {
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(String deliveryAddress) {
+		if(!isNullAndEmpty(deliveryAddress))
+			this.deliveryAddress = deliveryAddress;
+	}
+
+	public String getPaymentMode() {
+		return paymentMode;
+	}
+
+	public void setPaymentMode(String paymentMode) {
+		if(!isNullAndEmpty(paymentMode))
+			this.paymentMode = paymentMode;
+	}
+
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(String paymentStatus) {
+		if(!isNullAndEmpty(paymentStatus))
+			this.paymentStatus = paymentStatus;
+	}
+
+	public String getDeliveryStatus() {
+		return deliveryStatus;
+	}
+
+	public void setDeliveryStatus(String deliveryStatus) {
+		if(!isNullAndEmpty(deliveryStatus))
+			this.deliveryStatus = deliveryStatus;
+	}
+
+	public Shops getShop() {
+		return shop;
+	}
+
+	public void setShop(Shops shop) {
+		if(shop != null)
+			this.shop = shop;
+	}
+
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		if(user != null)
+			this.user = user;	
+	}
+
+	public Date getTxnCreatedTime() {
+		return txnCreatedTime;
+	}
+
+	public void setTxnCreatedTime(Date txnCreatedTime) {
+		if(txnCreatedTime != null)
+			this.txnCreatedTime = txnCreatedTime;
+	}
+
+	public Date getTxnUpdatedTime() {
+		return txnUpdatedTime;
+	}
+
+	public void setTxnUpdatedTime(Date txnUpdatedTime) {
+		if(txnUpdatedTime != null)
+			this.txnUpdatedTime = txnUpdatedTime;
+	}
+
+	public Date getPreferredDeliveryDate() {
+		return preferredDeliveryDate;
+	}
+
+	public void setPreferredDeliveryDate(Date preferredDeliveryDate) {
+		this.preferredDeliveryDate = preferredDeliveryDate;
+	}
+
+	public String getPreferredDeliveryTimeSlot() {
+		return preferredDeliveryTimeSlot;
+	}
+
+	public void setPreferredDeliveryTimeSlot(String preferredDeliveryTimeSlot) {
+		this.preferredDeliveryTimeSlot = preferredDeliveryTimeSlot;
+	}
+}

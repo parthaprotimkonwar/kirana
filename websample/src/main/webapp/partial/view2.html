@@ -1,0 +1,13 @@
+<h1> View2</h1>
+<div ng-controller="landingPageController">
+        	<form action="">
+	        	Id: <input type="text" ng-model="userid">
+				UserName: <input type="text" ng-model="username">
+		        <button ng-click="saveDetails()"> Save Details</button>
+	     	</form>
+        	<ul>
+        		<li ng-repeat="emp in employee">
+        			Id: {{emp.id}} || Name: {{emp.name}}
+        		</li>
+        	</ul>
+        </div>

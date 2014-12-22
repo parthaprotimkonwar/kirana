@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+
+
+<html>
+<head>
+ <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css" />
+	 <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css" />
+	 <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" />
+	 <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+	 <link rel="stylesheet" href="/CSS/custom.css" />
+	 
+
+  
+	
+	<script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+
+<body>
+
+       <div class="container">          
+      <ul class="headerBg nav nav-tabs navbar-fixed-top " role="tablist">
+        <li class="" style="vertical-align:middle;"><span class="navBarFont" >Welcome</span></li>
+        <li class="pull-right"><a  id="cartSymbol" class="navBarFont" ng-click="showCartAgain();"><img src="/img/cart.png" width="25px" style="vertical-align:middle;outline: 1px solid transparent;" /> ({{cartItem}})</a></li>        
+        <li class="pull-right"><a  id="shopSelectedNav" class="navBarFont" >{{shopSelected}}</a></li>
+        <li class="pull-right"><a  id="locationSelectedNav" class="navBarFont" >{{locationSelected}}</a></li>
+        <li class="pull-right"><a  id="citySelected" class="navBarFont" style="">{{citySelected}}</a></li>
+        
+        
+       <!--  <li class="pull-right"><img width="4%"  height="4%" src="/img/right-arrow.png" /></li> -->
+        
+        </ul>
+    </div>
+    
+    
+<!-- <div id="headerDiv" style="overflow-x: hidden;z-index:100;background-image:url('/img/headerBg.png');margin:0px;padding:2%;color:brown;font-weight:bold;font-style:italic;height:15px; line-height:15px;"><div style="float:left;">Welcome</div><div align="right" style="height:15px; line-height:15px;""><span style="color:brown;cursor:pointer;cursor:hand;"  id="citySelected">{{citySelected}} </span><img src="/img/cart.png" width="3%" style="vertical-align:middle;" /><span ng-show="showCart" style="margin-left:0%;color:brown;font-weight:bold;" id="cartIcon">({{cartItem}})</span></div></div>
+ -->
+</body>
+</html>

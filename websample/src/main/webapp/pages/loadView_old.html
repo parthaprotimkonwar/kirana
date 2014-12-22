@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<html ng-app="ngAppCart">
+
+<head>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/CSS/custom.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/JS/angular.min.js"></script>
+    <script type="text/javascript" src="/JS/angular-route.js"></script>
+    <script type="text/javascript" src="/JS/populateList.js"></script>
+</head>
+
+<body>
+    <div id="populateDiv" ng-controller="LaunchCtrl">
+        <div id="header" ng-include src="'/pages/header.html'"></div>
+        <div id="footer" ng-include src="'/pages/footer.html'"></div>
+        <div id="groceryBg" class=" mainContentBg" style=""> </div>
+        <!-- FOR ALL LOCATION GETTING -->
+        <div id="locationPopup" style="display:none;z-index:1998;opacity:0.7;background-color:black;position:absolute; left:0;top:0px; width:100%; min-height:100%;">
+            <div id="locationPopupInternal" style="padding:1%;width:35%;height:25%;background-color:grey;z-index: 2000;position: absolute;top:0;bottom: 0;left: 0;right: 0;margin: auto;">
+                <div style="position: absolute;top:0;bottom: 0;left: 0;right: 0;margin:auto;">
+                    <div style="position: absolute;top:40%; margin:auto;padding-left:2%;">
+                        <input list="cityList" data-ng-model="citySelected" id="cityInput" style="width:auto;height:15%;" type="text" placeholder="Enter city" />
+                        <input list="locationList" data-ng-model="locationSelected" ng-show="citySelected" id="locationInput" style="width:auto;height:15%;" type="text"
+                        placeholder="Enter location" />
+                        <input list="shopList" data-ng-model="shopSelected" id="shopInput" ng-show="locationSelected && citySelected" style="width:auto;height:15%;"
+                        type="text" placeholder="Enter shop" /> </div>
+                    <br/>
+                    <input value="Done" id="cityDone" type="button" style="position: absolute;bottom: 0;right: 0;margin: 1%;" /> </div>
+            </div>
+        </div>
+        <!-- ALL LOCATION GETTING END -->
+        <!-- FOR ONLY LOCATION GETTING -->
+        <!-- <div id="locPopup"  style="display:none;z-index:1998;opacity:0.7;background-color:black;position:absolute; left:0;top:0px; width:100%; min-height:100%;">
+<div id="locPopupInternal"  style="padding:1%;width:35%;height:25%;background-color:grey;z-index: 2000;position: absolute;top:0;bottom: 0;left: 0;right: 0;margin: auto;" >
+<div style="position: absolute;top:0;bottom: 0;left: 0;right: 0;padding:1%">
+<div style="position: absolute;top:40%;">
+<input list="cityList" data-ng-model="cityName" onclick="this.value=\'\'" id="cityInput" style="display:none;width:auto;height:15%;" type="text" placeholder="Enter city"/>
+<input list="locationList" data-ng-model="locName" onclick="this.value=\'\'" id="locationInput" style="width:auto;height:15%;" type="text" placeholder="Enter location"/>
+<input list="shopList" data-ng-model="shpName" id="shopInput" style="display:none;width:30%;height:15%;" type="text" placeholder="Enter shop"/>
+</div>
+<br/>
+<input value="Done" id="cityDone" type="button" style="position: absolute;bottom: 0;right: 0;margin: 1%;"/>
+</div>
+</div>
+</div> -->
+        <!-- ONLY LOCATION GETTING END -->
+        <!-- FOR ONLY SHOP GETTING -->
+        <!-- <div id="shopPopup"  style="display:none;z-index:1995;opacity:0.5;background-color:black;position:absolute; left:0;top:0px; width:100%; min-height:100%;">
+<div id="shopPopupInternal"  style="padding:1%;width:35%;height:25%;background-color:grey;z-index: 2000;position: absolute;top:0;bottom: 0;left: 0;right: 0;margin: auto;" >
+<div style="position: absolute;top:0;bottom: 0;left: 0;right: 0;padding:1%">
+<div style="position: absolute;top:40%;">
+<input list="cityList" data-ng-model="cityName" onclick="this.value=\'\'" id="cityInput" style="display:none;width:auto;height:15%;" type="text" placeholder="Enter city"/>
+<input list="locationList" data-ng-model="locName" onclick="this.value=\'\'" id="locationInput" style="display:none;width:auto;height:15%;" type="text" placeholder="Enter location"/>
+<input list="shopList" data-ng-model="shpName" id="shopInput" style="width:30%;height:15%;" type="text" placeholder="Enter shop"/>
+</div>
+<br/>
+<input value="Done" id="cityDone" type="button" style="position: absolute;bottom: 0;right: 0;margin: 1%;"/>
+</div>
+</div>
+</div> -->
+        <!-- ONLY SHOP GETTING END -->
+        <datalist id="cityList">
+            <select id="citySelectList">
+                <option data-city="{{city.cityId}}" ng-repeat="city in cityList | filter:cityName">{{city.cityName}}</option>
+            </select>
+        </datalist>
+        <datalist id="locationList" ng-model="itemSelectDrop" ng-animate="'animate'">
+            <select id="locationSelectList">
+                <option ng-repeat="location in locationList | filter:locName" data-location="{{location.locationId}}">{{location.locationName}}</option>
+            </select>
+        </datalist>
+        <datalist id="shopList" ng-model="itemSelectDrop" ng-animate="'animate'">
+            <select id="shopSelectList">
+                <option ng-repeat="shop in shopList | filter:shpName" data-shop="{{shop.shopId}}">{{shop.shopName}}</option>
+            </select>
+        </datalist>
+        <datalist id="itemList">
+            <select id="itemSelectList">
+                <option ng-repeat="item in items | filter:itemName" selected="selected" data-info="{{item}}">{{item.itemName}}</option>
+            </select>
+        </datalist>
+        <!-- <a id="checkoutImg" ng-click="userCategory();" ng-if="cartItem > 0" title="Checkout" style="position:absolute;top:15%;right:1px;cursor:pointer;"><img src="/img/checkout.png" width="18%" height="3%"/></a>
+ -->
+        <div class="container-fluid ItemInputDiv">
+            <div class="row">
+                <div class="span9">
+                    <!--  For showing user category START  -->
+                    <div id="cartUserType" ng-if="cartItem > 0 && itemSearch && showCartUserType" style="display:none;width:35%;padding:1%;background-color:rgb(224,224,224); border-spacing: 0% 2%;border-radius:10px;background-size:cover;"
+                    class="ItemInputDiv">
+                        <div id="checkout" style="text-align:center;"> <span style="text-align:center;text-weight:bold;font-size:20px;">Select your Category:-</span>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <a id="registerImg" ng-click="registerForm();" style="float:left;"><img src="/img/register.png" title="Register" width="150px" height="150px" />
+                                <br/><span style="text-align:center;text-weight:bold;font-size:20px;">Register</span>
+                            </a>
+                            <a ng-click="guestForm();" style="float:right;" id="guestImg"><img width="150px" height="150px" src="/img/guest.png" title="Guest User" />
+                                <br/><span style="text-align:center;text-weight:bold;font-size:20px;">Guest User</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!--    For showing user category END  -->
+                    <div id="searchBarDiv" ng-show="itemSearch">
+                        <!--    <input class="inputItem" list="itemList" data-ng-model="itemName" id="itemInput"   type="text" placeholder="Enter item name"/>
+    <input class="inputQuantity" id="itemQuantInput"  style="" type="text" placeholder="Enter quantity"/>
+    <input type="button"  class="addItem" id="addItem" ng-click="addItemToCart(selectedItem)"  value="Add" />
+    <input type="button"  class="browse"   id="browse"  value="Browse" /> --><span id="errorMandatory" ng-show="errorShow" style="color:red;">Please fill mandatory fields</span>
+                        <br/>
+                        <input class="inputItem" type="text" style="margin:0px;padding:1%;" list="itemList" data-ng-model="itemName" id="itemInput" type="text"
+                        placeholder="Enter item name" />
+                        <input class="inputQuantity" type="text" style="margin:0px;padding:1%;" id="itemQuantInput" style="" type="text" placeholder="Quantity"
+                        />
+                        <input class="addItem" type="button" style="margin:0px;padding:1%;width:14%;" id="addItem" ng-click="addItemToCart(item,false)" value="Add"
+                        />
+                        <input type="button" class="browse" style="margin:0px;padding:1%;width:14%;" id="browse" ng-click="showBrowseDiv();" value="Browse" />
+                        <a id="checkoutImg" ng-click="userCategory();" ng-if="cartItem > 0 && itemSearch" title="Checkout" style="width:3%;cursor:pointer;position:absolute;vertical-align:middle;margin-left:2%;"><img src="/img/checkout.png" />
+                        </a>
+                    </div>
+                    <br/>
+                    <table id="cartTable" ng-animate=" 'animate' " ng-if="cartItem > 0 && itemSearch" style="background-color:rgb(224,224,224); border-spacing: 0% 2%;border-radius:10px;background-size:cover;">
+                        <tr style="background-image:url('/img/headerBg.png');">
+                            <th style="width:25%;"><span style="">Item Name</span> </th>
+                            <th style="width:15%;"><span style="text-align:center;">Quantity</span> </th>
+                            <th style="width:20%;"><span style="text-align:center;">Price/unit</span> </th>
+                            <th style="width:15%;"><span style="text-align:center;">Unit</span> </th>
+                            <th style="width:18%;"><span style="text-align:right;">Total Price</span> </th>
+                            <th align="center" style="width:5%;"><img class="deleteClass" style="text-align:center;width:80%;height:4%;cursor:pointer;" ng-click="emptyCart();" src="/img/delete.png"
+                                /> </th>
+                            <th align="center" style="width:3%;"><span ng-click="hideCart();" style="cursor:pointer;">--</span> </th>
+                        </tr>
+                        <tr ng-repeat="added in addedList" style="">
+                            <td style="width:15%;text-align:center;"><span style="">{{added.itemName}}</span> </td>
+                            <td style="width:15%;text-align:center;"><span style="text-align:center;"><input id="quantVal" style="width:55%;"   ng-model="added.qty"  ng-change="updateCart(added.qty,added)"/></span>                                </td>
+                            <td style="width:15%;text-align:center;"><span style="text-align:center;">{{added.price}} INR</span> </td>
+                            <td style="width:15%;text-align:center;"><span style="text-align:center;">{{added.unit}}</span> </td>
+                            <td style="width:18%;text-align:right;" ng-model="totalItemPrice"><span style="text-align:center;">{{(added.price|number)*(added.qty|number)}} INR</span> </td>
+                            <td align="center"><img ng-click="removeItem(added);" class="removeImgId" style="align:center;width:35%;height:3%;cursor:pointer;" src="/img/remove.png"
+                                /> </td>
+                        </tr>
+                        <!-- <tr  style="text-align:left;" ng-repeat="added in addedList"><td  style="text-align:left;width:25%;;">{{added.name}}</td><td style="width:5%;text-align:center;"><input style="width:55%;text-align:center;"   ng-model="inputQty" ng-change="updateCart(inputQty,added)"/></td><td style="width:25%;text-align:center;;">{{added.price}}</td><td ng-model="totalItemPrice" style="width:25%;text-align:center;;">{{(added.price|number)*(inputQty|number)}}</td><td><button ng-click="removeItem(added);" style="width:95%">Remove</button></td></tr>
+ -->
+                        <tr>
+                            <td style="width:3%"></td>
+                            <td style="width:3%"></td>
+                            <td style="width:3%"></td>
+                            <td style="width:3%"></td>
+                            <td style="width:5%;text-align:right;">
+                                <hr/> </td>
+                        </tr>
+                        <tr style="font-weight:bold;color:brown;">
+                            </td>
+                            <td style="width:3%"></td>
+                            <td style="width:3%"></td>
+                            <td style="width:3%"></td>
+                            <td style="width:3%"></td>
+                            <td style="width:5%;text-align:right;"><span style="text-align:left;">Total: </span><span align="left">{{mainTotal}} INR</span> </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- Browse list of items START
+ -->
+                <div id="browseList" style="width:35%;display:none;background-size:cover;float:right;" class="container-fluid"> <img align="right" ng-click="removeBrowseDiv();" src="/img/remove.png" height="3%" width="3%" style="cursor:pointer;margin:2%;" />
+                    <div class="well"
+                    style="background-image:url(/img/headerBg.png);color:black;">
+                        <ul>
+                            <li ng-repeat="category in listCategoryItem">
+                                <a data-toggle="collapse" ng-click="toggler($event);" class="active" data-target="#{{category.categoryId}}"> <i class="icon-minus-sign"></i> <i class="icon-plus-sign"></i> {{category.categoryName}} </a>
+                                <div id="{{category.categoryId}}" class="collapse out">
+                                   <ul> <li ng-repeat="subCategory in category.subCategory">
+                                    
+                                    <a data-toggle="collapse" ng-click="toggler($event);" class="active" data-target="#{{subCategory.subCategoryId}}"> <i class="icon-minus-sign"></i> <i class="icon-plus-sign"></i> {{subCategory.subCategoryName}} </a>
+                                        <div id="{{subCategory.subCategoryId}}"
+                                        class="collapse out">
+                                            <ul class="nav nav-list">
+                                                <li>
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <tr ng-repeat="product in subCategory.items" style="">
+                                                                <td style="vertical-align:middle;width:60%;"><i class="icon-chevron-right"></i>{{product.itemName}}</td>
+                                                                <td style="margin-bottom:0px;vertical-align:middle;width:28%;">
+                                                                    <select id="itemBrowse" ng-model="product.levelmodel" required="required" style="width:100%;">
+                                                                        <option ng-show="$index > 0" data-info="{{item}}" ng-repeat="quant in quantArray[product.sizeId]">{{quant.label}}</option>
+                                                                        <option ng-show="!product.levelmodel" value="">Quantity</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td style="vertical-align:middle;width:12%;cursor:pointer;" ng-click="addItemToCart(product,true,$event)"><img style="" src="/img/add.png" /> </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>		
+                                     </li>
+                                    </ul>
+                                       <!--  <a data-toggle="collapse" ng-click="toggler($event);" class="active" data-target="#{{subCategory.subCategoryName}}"> <i class="icon-minus-sign"></i> <i class="icon-plus-sign"></i> {{subCategory.subCategoryName}} </a>
+                                        <div id="{{subCategory.subCategoryName}}"
+                                        class="collapse out">
+                                            <ul class="nav nav-list">
+                                                <li>
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <tr ng-repeat="product in subCategoryName.items" style="">
+                                                                <td style="vertical-align:middle;width:60%;"><i class="icon-chevron-right"></i>{{product.itemName}}</td>
+                                                                <td style="margin-bottom:0px;vertical-align:middle;width:28%;">
+                                                                    <select id="itemBrowse" ng-model="product.levelmodel" required="required" style="width:100%;">
+                                                                        <option ng-show="$index > 0" data-info="{{item}}" ng-repeat="quant in quantArray[product.sizeId]">{{quant.label}}</option>
+                                                                        <option ng-show="!product.levelmodel" value="">Quantity</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td style="vertical-align:middle;width:12%;cursor:pointer;" ng-click="addItemToCart(product,true,$event)"><img style="" src="/img/add.png" /> </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div> -->
+                                   
+                                </div>
+                                <!--  <div id="{{category.categoryName}}" class="collapse out">
+                                    <ul class="nav nav-list">
+                                       
+                                        <li>
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tr ng-repeat="product in category.items" style="">
+                                                        <td style="vertical-align:middle;width:60%;"><i class="icon-chevron-right"></i>{{product.name}}</td>
+                                                        <td style="margin-bottom:0px;vertical-align:middle;width:28%;">
+                                                            <select id="itemBrowse" ng-model="product.levelmodel" required="required" style="width:100%;">
+
+                                                                <option ng-show="$index > 0" data-info="{{item}}" ng-repeat="quant in quantArray[product.quantId]">{{quant.label}}</option>
+                                                                <option ng-show="!product.levelmodel" value="">Quantity</option>
+                                                            </select>
+                                                        </td>
+                                                        <td style="vertical-align:middle;width:12%;cursor:pointer;" ng-click="addItemToCart(product,true,$event)"><img style="" src="/img/add.png" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+
+
+
+                                    </ul>
+                                </div> -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /container -->
+            </div>
+        </div>
+        <div id="guestUserForm" ng-show="showGuestForm" class="ItemInputDiv greyBGColor" style="display:none;"> <img ng-click="removeRegOrGuestForm();" class="removeImgId" style="float:right;width:3%;height:3%;cursor:pointer;" src="/img/remove.png" />
+            <form ng-submit="submitGuest();">
+                <h1>Guest User</h1>
+                <div class="">
+                    <label for="username">Email *: </label>
+                    <input type="email" id="email" required />
+                </div>
+                <div class="">
+                    <label for="pwd">Contact Number: </label>
+                    <input type="number" id="phone" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                </div>
+                <div>
+                    <input type="submit" class="headerBg" value="Submit" />
+                </div>
+            </form>
+        </div>
+        <div id="registerUserForm" ng-show="showRegisterForm" class="ItemInputDiv greyBGColor" style="display:none;">
+            <form ng-submit="submitRegister();"> <img ng-click="removeRegOrGuestForm();" class="removeImgId" style="float:right;width:3%;height:3%;cursor:pointer;" src="/img/remove.png" />
+                <h1>Registration</h1>
+                <div class="">
+                    <label for="username">Username *: </label>
+                    <input type="text" id="username" />
+                </div>
+                <div class="">
+                    <label for="pwd">Password *: </label>
+                    <input type="password" id="pwd" />
+                </div>
+                <!-- You may want to consider adding a "confirm" password box also -->
+                <div class="">
+                    <label for="surname">Surname *: </label>
+                    <input type="text" id="surname" />
+                </div>
+                <div class="">
+                    <label for="other_names">Other Names *: </label>
+                    <input type="text" id="names" />
+                </div>
+                <div class="">
+                    <label for="dob">Date of Birth *: </label>
+                    <input type="text" id="dob" />
+                </div>
+                <div class="">
+                    <label for="email">Email *: </label>
+                    <input type="email" id="email" />
+                </div>
+                <!-- Valid input types: http://www.w3schools.com/html5/html5_form_input_types.asp -->
+                <div class="">
+                    <label for="tel">Telephone: </label>
+                    <input type="text" id="tel" />
+                </div>
+                <div class="">
+                    <label for="add">Address *: </label>
+                    <input type="text" id="add" />
+                </div>
+                <div class="">
+                    <label for="ptc">Post Code *: </label>
+                    <input type="text" id="ptc" />
+                </div>
+                <div>
+                    <input type="submit" class="headerBg" value="Submit" />
+                </div>
+                <p>Note: Please make sure your details are correct before submitting form and that all fields marked with * are completed!.</p>
+            </form>
+        </div>
+        <div id="deliveryAddressForm" ng-show="showdeliveryAddressForm" class="AddrsDiv greyBGColor" style="float:right;">
+            <!-- <img ng-click="removeAddressForm();" class="removeImgId" style="float:right;width:3%;height:3%;cursor:pointer;" src="/img/remove.png" />
+ -->
+            <form ng-submit="selectPaymentOption();">
+                <h1>Provide Delivery Address</h1>
+                <div class="">
+                    <label for="username">Name *: </label>
+                    <input type="text" id="name" />
+                </div>
+                <div class="">
+                    <label for="add">Address *: </label>
+                    <input type="text" id="add" />
+                </div>
+                <div class="">
+                    <label for="ptc">Post Code *: </label>
+                    <input type="text" id="ptc" />
+                </div>
+                <div class="">
+                    <label for="ptc">Date of Delivery *: </label>
+                    <input type="date" id="ptc" />
+                </div>
+                <div class="">
+                    <label for="ptc">Time of Dilevry *: </label>
+                    <input type="time" id="ptc" />
+                </div>
+                <div>
+                    <input type="submit" class="headerBg" value="Proceed" ng-click="submitGuest();" />
+                </div>
+            </form>
+        </div>
+        <div id="PaymentOption" ng-show="showPaymentOption" class="ItemInputDiv greyBGColor" style="float:right;">
+            <!-- <img ng-click="removeAddressForm();" class="removeImgId" style="float:right;width:3%;height:3%;cursor:pointer;" src="/img/remove.png" />
+ -->
+            <form>
+                <h2>Total Amount is {{mainTotal}}<br/>Please Select Payment Option</h2>
+                <div class="">
+                    <label for="username">Cash on Delivery: </label>
+                    <input type="text" id="name" />
+                </div>
+                <div class="">
+                    <label for="add">Debit/Credit Card: </label>
+                    <input type="text" id="add" />
+                </div>
+                <div class="">
+                    <label for="ptc">Net Banking: </label>
+                    <input type="text" id="ptc" />
+                </div>
+                <div>
+                    <input type="submit" class="headerBg" value="Proceed" ng-click="submitPayment();" />
+                </div>
+            </form>
+        </div>
+        
+        
+         <div id="orderComplete" ng-show="orderCompleteShow" class="ItemInputDiv greyBGColor" style="float:right;">
+          <img ng-click="orderDone();" class="removeImgId" style="float:right;width:3%;height:3%;cursor:pointer;" src="/img/remove.png" />
+ 
+           
+                <h2>Your order has been placed succesfully!</h2>
+                <label>Thank you for ordering with us.</label>
+                
+        </div>
+        
+        
+        <!-- Browse list END -->
+    </div>
+</body>
+
+</html>

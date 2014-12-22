@@ -1,0 +1,168 @@
+a
+{
+	text-decoration:none;
+	cursor:pointer;
+	text-color:black;
+}
+
+-webkit-backface-visibility: hidden;
+
+ul { list-style: none; }
+
+input
+{
+
+border-radius:5px;
+}
+
+.active i.icon-plus-sign{ display:inline-block; }
+.active i.icon-minus-sign { display:none;}
+
+.inactive i.icon-minus-sign{ display:inline-block; }
+.inactive i.icon-plus-sign { display:none;}
+
+.removeImgId:hover
+{
+background-color:red;
+}
+
+.deleteClass:hover
+{
+background-color:red;
+}
+
+
+
+.headerBg
+{
+	background-image:url('/img/headerBg.png');
+	padding:1%;
+	
+} 
+
+.footerBg
+{
+	background-image:url('/img/headerBg.png');
+	padding:5px;
+	
+}
+
+.navBarFont
+{
+	
+	font-style:italic;
+	color:brown;
+	text-decoration:none;
+	font-weight:bold;
+	font-size:16px;
+	cursor:pointer;
+}
+
+.footerText
+{
+	text-decoration:none;
+	color:black;
+}
+
+.mainContentBg
+{
+	
+	background-image:url('/img/groceryBg3.png');position:fixed;left: 0;opacity: 0.2;width:100%;background-size:cover;height:97%;background-repeat: no-repeat;background-position: center center;
+}
+.ItemInputDiv
+{
+	
+	position: absolute;
+	top:25%;
+	margin-left:5%;
+	width:85%;
+}
+
+.AddrsDiv
+{
+	position: absolute;
+	top:20%;
+	right:1%;
+	
+}
+
+.inputItem
+{
+	width:50%;
+
+	
+}
+
+.inputQuantity
+{
+	width:15%;
+
+	
+}
+
+.buttonCustom
+{
+	border-radius:5px;background-image:url('/img/headerBg.png');
+		color:white;
+		text-decoration:none;
+		padding:2%;
+	
+}
+
+.addItem
+{
+		border-radius:5px;background-image:url('/img/headerBg.png');
+		color:white;
+		text-decoration:none;
+		
+	
+		
+	
+}
+.addItem:hover
+{
+   cursor: pointer;
+   text-decoration:none;
+}
+
+.browse
+{
+
+	border-radius:5px;background-image:url('/img/headerBg.png');
+	color:white;
+	text-decoration:none;
+	/* padding-top:1%;
+	padding-bottom:1%;
+	padding-right:2%;
+	padding-left:2%; */
+	;
+	
+}
+.browse:hover
+{
+   cursor: pointer;
+   text-decoration:none;
+}
+
+/* Animation */
+
+.animate-enter {
+	-webkit-transition: 3s linear all; /* Chrome */
+	transition: 3s linear all;
+	opacity: 0;
+}
+ 
+.animate-enter.animate-enter-active {
+	opacity: 1;
+}
+
+/* Animation End */
+
+.greyBGColor
+{
+	
+	width:35%;padding:1%;background-color:rgb(224,224,224); border-spacing: 0% 2%;border-radius:10px;background-size:cover;
+}
+
+
+
