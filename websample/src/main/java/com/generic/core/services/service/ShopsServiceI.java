@@ -10,4 +10,5 @@ public interface ShopsServiceI {
 	List<Shops> findAllShops();
 
 	//List<ShopDto> findShopsForLocation(String locationId);
+	
 }

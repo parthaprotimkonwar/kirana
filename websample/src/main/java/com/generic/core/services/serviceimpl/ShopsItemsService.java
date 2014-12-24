@@ -68,7 +68,7 @@ public class ShopsItemsService implements ShopsItemsServiceI{
 			if(items == null) 
 				items = new ArrayList<ItemDto>();
 			
-			ItemDto anItemDto = new ItemDto(aItem.getItemId(), aItem.getImageName(), aItem.getDescription(), aItem.getImageName(), aShopItem.getPrice(), aShopItem.getSize().getSizeId());
+			ItemDto anItemDto = new ItemDto(aItem.getItemId(), aItem.getItemName(), aItem.getDescription(), aItem.getImageName(), aShopItem.getPrice(), aShopItem.getSize().getSizeId());
 			
 			items.add(anItemDto);
 			childInventory.put(childCategoryDto, items);

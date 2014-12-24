@@ -10,39 +10,51 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SHOPS")
-public class Shops implements Serializable{
+@Table(name = "SHOPS")
+public class Shops implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	public Shops() {}
-	
+
+	public Shops() {
+	}
+
 	public Shops(String shopId) {
 		this.shopId = shopId;
 	}
-	
+
 	public Shops(String shopId, String shopName) {
 		this.shopId = shopId;
 		this.shopName = shopName;
 	}
 
 	@Id
-	@Column(name="SHOP_ID")
+	@Column(name = "SHOP_ID")
 	private String shopId;
-	
-	@Column(name="SHOP_NAME")
+
+	@Column(name = "SHOP_NAME")
 	private String shopName;
 
-	@OneToMany(mappedBy="shopIdItemId.shop")
+	@Column(name = "SHOP_TYPE")
+	private String shopType;
+
+	@Column(name = "EMAIL")
+	private String email;
+
+	@Column(name = "PHONE_NUMBER")
+	private String phoneNumber;
+
+	@Column(name = "OWNER_NAME")
+	private String ownerName;
+
+	@OneToMany(mappedBy = "shopIdItemId.shop")
 	private Set<ShopsItems> shopItem;
 
-	@OneToMany(mappedBy="shop")
+	@OneToMany(mappedBy = "shop")
 	private Set<Transactions> transactions;
-	
-	@OneToMany(mappedBy="shopIdLocationId.shops")
+
+	@OneToMany(mappedBy = "shopIdLocationId.shops")
 	private Set<ShopsLocations> shopsLocations;
 
-	
 	public String getShopName() {
 		return shopName;
 	}
@@ -81,6 +93,38 @@ public class Shops implements Serializable{
 
 	public void setShopsLocations(Set<ShopsLocations> shopsLocations) {
 		this.shopsLocations = shopsLocations;
+	}
+
+	public String getShopType() {
+		return shopType;
+	}
+
+	public void setShopType(String shopType) {
+		this.shopType = shopType;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getOwnerName() {
+		return ownerName;
+	}
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 
 }

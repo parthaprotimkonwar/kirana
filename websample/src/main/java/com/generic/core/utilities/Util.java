@@ -47,7 +47,6 @@ public class Util {
 		return data.split(delimeter);
 	}
 	
-	
 	public static Boolean isNullAndEmpty(String...strings) {
 		
 		for(String aString : strings) {
@@ -56,7 +55,6 @@ public class Util {
 		}
 		return false;
 	}
-	
 	
 	public static Boolean userLoggedin(HttpSession session) {
 		if(session.getAttribute(SessionStoreConstants.USER_LOGGED_IN) == null ||
