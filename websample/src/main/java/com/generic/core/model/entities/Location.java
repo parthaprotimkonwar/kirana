@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="LOCATION")
+@Table(name="LOCATION", schema="factory")
 public class Location implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -29,10 +29,10 @@ public class Location implements Serializable{
 	}
 	
 	@Id
-	@Column(name="LOCATION_ID")
+	@Column(name="LOCATION_ID", length=20)
 	private String locationId;
 	
-	@Column(name="LOCATION_NAME")
+	@Column(name="LOCATION_NAME", length=20)
 	private String locationName;
 
 	@ManyToOne

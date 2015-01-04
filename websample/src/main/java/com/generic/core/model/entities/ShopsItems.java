@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SHOPS_ITEMS")
+@Table(name="SHOPS_ITEMS", schema="factory")
 public class ShopsItems implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -18,13 +18,13 @@ public class ShopsItems implements Serializable {
 	@EmbeddedId
 	private ShopIdItemId shopIdItemId;
 	
-	@Column(name="PRICE")
+	@Column(name="PRICE", length=20)
 	private String price;
 	
-	@Column(name="DISCOUNT")
+	@Column(name="DISCOUNT", length=10)
 	private String discount;
 	
-	@Column(name="STATUS")
+	@Column(name="STATUS", length=20)
 	private String Status;
 
 	//ManyToOne is the foreign key

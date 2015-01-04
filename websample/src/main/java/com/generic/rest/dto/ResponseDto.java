@@ -17,4 +17,9 @@ public class ResponseDto {
 	public String getStatusMessage() {
 		return statusMessage;
 	}
+	
+	@Override
+	public String toString() {
+		return "StatusCode : " + statusCode + " -- " + "StatusMessage : " + statusMessage;
+	}
 }

@@ -13,6 +13,7 @@ import com.generic.core.respository.LocationRepository;
 import com.generic.core.services.service.LocationServiceI;
 import com.generic.core.services.serviceimpl.LocationService;
 import com.generic.rest.dto.LocationDto;
+import com.generic.rest.dto.ResponseDto;
 
 @Service
 @Transactional
@@ -48,6 +49,16 @@ public class LocationService implements LocationServiceI{
 			locationDto.add(aLocationDto);
 		}
 		return locationDto;
+	}
+
+	@Override
+	public ResponseDto insertLocations(List<Location> locations) {
+		try {
+			locationRepository.save(locations);
+		} catch (Exception ex) {
+			return new ResponseDto("00", "unable to insert");
+		}
+		return new ResponseDto("200", "ok");
 	}
 	
 }

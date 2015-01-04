@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SHOPS_LOCATIONS")
+@Table(name = "SHOPS_LOCATIONS", schema="factory")
 public class ShopsLocations implements Serializable{
 
 	/**

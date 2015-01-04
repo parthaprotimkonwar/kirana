@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="ITEMS")
+@Table(name="ITEMS", schema="factory")
 public class Items implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -28,16 +28,16 @@ public class Items implements Serializable{
 	}
 	
 	@Id
-	@Column(name="ITEM_ID")
+	@Column(name="ITEM_ID", length=20)
 	private String itemId;
 	
-	@Column(name="ITEM_NAME")
+	@Column(name="ITEM_NAME", length=200)
 	private String itemName;
 	
-	@Column(name="IMAGE_NAME")
+	@Column(name="IMAGE_NAME", length=100)
 	private String imageName;
 
-	@Column(name="DESCRIPTION")
+	@Column(name="DESCRIPTION", length=200)
 	private String description;
 	
 	@ManyToOne

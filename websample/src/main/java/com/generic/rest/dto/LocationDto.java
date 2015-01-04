@@ -15,6 +15,20 @@ public class LocationDto {
 	}
 	
 	@Override
+	public boolean equals(Object thatLocationDto) {
+		if(thatLocationDto == null || thatLocationDto.getClass() != this.getClass())
+			return false;
+		
+		LocationDto thatLocation = (LocationDto)thatLocationDto;
+		return thatLocation.cityId.equals(this.cityId);
+	}
+	
+	@Override
+	public int hashCode() {
+		return cityId == null || cityId.trim().isEmpty() ? 17 : cityId.hashCode();
+	}
+	
+	@Override
 	public String toString() {
 		return this.cityId + " : " + this.cityName ;
 	}

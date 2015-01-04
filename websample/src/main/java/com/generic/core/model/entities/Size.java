@@ -10,17 +10,20 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SIZE")
+@Table(name="SIZE", schema="factory")
 public class Size implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="SIZE_ID")
+	@Column(name="SIZE_ID", length=20)
 	private String sizeId;
 	
-	@Column(name="SIZE_NAME")
+	@Column(name="SIZE_NAME", length=50)
 	private String sizeName;
+	
+	@Column(name="UNIT", length=10)
+	private String unit;
 	
 	@Column(name="PERMISSIBLE_VALUES")
 	private String permissibleValues;

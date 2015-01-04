@@ -17,6 +17,7 @@
   </repositories>
   <properties>
         <hibernate.version>4.0.1.Final</hibernate.version>
+        <apache.poi.version>3.10-FINAL</apache.poi.version>
         <mysql.connector.version>5.1.18</mysql.connector.version>
         <slf4j.version>1.6.1</slf4j.version>
         <spring.version>4.0.6.RELEASE</spring.version>
@@ -25,6 +26,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
+  		<!-- Excel POI dependency -->
+  		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>${apache.poi.version}</version>
+		</dependency>
         <!-- Object to JSON Jackson API -->
         <dependency>
 		  <groupId>com.fasterxml.jackson.core</groupId>
@@ -112,12 +119,13 @@
             <version>${hibernate.version}</version>
         </dependency>
         <!-- H2 Database -->
+        <!-- 
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.3.160</version>
         </dependency>
-        
+        -->
         
         
         <!-- MySQL JDBC connector -->
@@ -131,13 +139,12 @@
         -->
         <!-- PostgreSQL JDBC 4 -->
         <!-- If you don't want to use PostgreSQL, uncomment this dependency declaration. -->
-        <!--
         <dependency>
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.0-801.jdbc4</version>
         </dependency>
-        -->
+        
         <!-- BoneCP -->
         <dependency>
             <groupId>com.jolbox</groupId>

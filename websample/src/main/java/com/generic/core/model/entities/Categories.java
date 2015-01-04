@@ -12,17 +12,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="CATEGORIES")
+@Table(name="CATEGORIES", schema="factory")
 public class Categories implements Serializable{
 
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column(name="CATEGORY_ID")
+	@Column(name="CATEGORY_ID", length=20)
 	private String categoryId;
 	
-	@Column(name="CATEGORY_NAME")
+	@Column(name="CATEGORY_NAME", length=20)
 	private String categoryName;
 	
 	@ManyToOne

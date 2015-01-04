@@ -13,7 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="USERS")
+@Table(name="USERS", schema="transaction")
 public class Users implements Serializable{
 
 	/**
@@ -27,43 +27,44 @@ public class Users implements Serializable{
 		this.userId = userId;
 	}
 	
-	
 	@Id
-	@Column(name="USER_ID")
+	@Column(name="USER_ID", length=20)
 	private String userId;
 	
-	@Column(name="USER_NAME")
+	@Column(name="USER_NAME", length=20)
 	private String userName;
 	
-	@Column(name="EMAIL")
+	@Column(name="EMAIL", length=100)
 	private String email;
 	
-	@Column(name="PHONE")
+	@Column(name="PHONE", length=15)
 	private String phone;
 	
-	@Column(name="HOME_ADDRESS")
+	@Column(name="HOME_ADDRESS", length=100)
 	private String homeAddress;
 	
-	@Column(name="UNSAVED_CART_ITEMS")
+	@Column(name="UNSAVED_CART_ITEMS", length=200)
 	private String unsavedCartItems;
 	
-	@Column(name="PASSWORD")
+	@Column(name="PASSWORD", length=100)
 	private String password;
 	
-	@Column(name="DELIVERY_ADDRESS")
+	@Column(name="DELIVERY_ADDRESS", length=100)
 	private String deliveryAddress;
 	
-	@Column(name="CREATION_TIME", columnDefinition="DATETIME")
+	@Column(name="CREATION_TIME", length=20)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationTime;
 	
-	@Column(name="LAST_ACCESSED_TIME", columnDefinition="DATETIME")
+	@Column(name="LAST_ACCESSED_TIME", length=20)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastAccessedTime;
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="theUser")
 	private Set<Transactions> transactions;
 
+	@OneToMany(mappedBy="theUser")
+	private Set<UserInterests> userInterests;
 	
 	public String getUserId() {
 		return userId;

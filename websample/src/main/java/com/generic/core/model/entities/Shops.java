@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SHOPS")
+@Table(name = "SHOPS", schema="factory")
 public class Shops implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -28,22 +28,22 @@ public class Shops implements Serializable {
 	}
 
 	@Id
-	@Column(name = "SHOP_ID")
+	@Column(name = "SHOP_ID", length=20)
 	private String shopId;
 
-	@Column(name = "SHOP_NAME")
+	@Column(name = "SHOP_NAME", length=20)
 	private String shopName;
 
-	@Column(name = "SHOP_TYPE")
+	@Column(name = "SHOP_TYPE", length=255)
 	private String shopType;
 
-	@Column(name = "EMAIL")
+	@Column(name = "EMAIL", length=100)
 	private String email;
 
-	@Column(name = "PHONE_NUMBER")
+	@Column(name = "PHONE_NUMBER", length=15)
 	private String phoneNumber;
 
-	@Column(name = "OWNER_NAME")
+	@Column(name = "OWNER_NAME", length=20)
 	private String ownerName;
 
 	@OneToMany(mappedBy = "shopIdItemId.shop")

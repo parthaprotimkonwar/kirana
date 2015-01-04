@@ -47,7 +47,7 @@ public class TransactionService implements TransactionServiceI{
 		transaction.setDeliveryStatus(Status.PENDING.getValue());
 		transaction.setItems(sessionAttributes.getItems());
 		transaction.setShop(shop);
-		transaction.setUser(user);
+		transaction.setTheUser(user);
 		
 		transactionsRepository.saveAndFlush(transaction);
 		return transaction.getTxnId();

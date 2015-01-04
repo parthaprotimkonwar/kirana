@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 import static com.generic.core.utilities.Util.*;
 
 @Entity
-@Table(name="TRANSACTIONS")
+@Table(name="TRANSACTIONS", schema="transaction")
 public class Transactions implements Serializable{
 
 	/**
@@ -24,37 +24,38 @@ public class Transactions implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="TXN_ID")
+	@Column(name="TXN_ID", length=20)
 	private String txnId;
 	
-	@Column(name="TXN_CREATED_TIME", columnDefinition="DATETIME")
+	@Column(name="TXN_CREATED_TIME", length=20)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date txnCreatedTime;
 	
-	@Column(name="TXN_UPDATED_TIME", columnDefinition="DATETIME")
+	//@Column(name="TXN_UPDATED_TIME", columnDefinition="DATETIME")
+	@Column(name="TXN_UPDATED_TIME", length=20)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date txnUpdatedTime;
 	
-	@Column(name="PREFERRED_DELIVERY_DATE")
+	@Column(name="PREFERRED_DELIVERY_DATE", length=20)
 	@Temporal(TemporalType.DATE)
 	private Date preferredDeliveryDate;
 	
-	@Column(name="PREFERRED_DELIVERY_TIMESLOT")
+	@Column(name="PREFERRED_DELIVERY_TIMESLOT", length=20)
 	private String preferredDeliveryTimeSlot;
 	
-	@Column(name="ITEMS")
+	@Column(name="ITEMS", length=200)
 	private String items;
 	
-	@Column(name="DELIVERY_ADDRESS")
+	@Column(name="DELIVERY_ADDRESS", length=100)
 	private String deliveryAddress;
 	
-	@Column(name="PAYMENT_MODE")
+	@Column(name="PAYMENT_MODE", length=20)
 	private String paymentMode;
 	
-	@Column(name="PAYMENT_STATUS")
+	@Column(name="PAYMENT_STATUS", length=20)
 	private String paymentStatus;
 	
-	@Column(name="DELIVERY_STATUS")
+	@Column(name="DELIVERY_STATUS", length=20)
 	private String deliveryStatus;
 	
 	@ManyToOne
@@ -63,7 +64,7 @@ public class Transactions implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="USER_ID")
-	private Users user;
+	private Users theUser;
 
 	public Transactions addTxnId(String txnId) {
 		setTxnId(txnId);
@@ -132,15 +133,6 @@ public class Transactions implements Serializable{
 			this.shop = shop;
 	}
 
-	public Users getUser() {
-		return user;
-	}
-
-	public void setUser(Users user) {
-		if(user != null)
-			this.user = user;	
-	}
-
 	public Date getTxnCreatedTime() {
 		return txnCreatedTime;
 	}
@@ -173,5 +165,14 @@ public class Transactions implements Serializable{
 
 	public void setPreferredDeliveryTimeSlot(String preferredDeliveryTimeSlot) {
 		this.preferredDeliveryTimeSlot = preferredDeliveryTimeSlot;
+	}
+
+	public Users getTheUser() {
+		return theUser;
+	}
+
+	public void setTheUser(Users theUser) {
+		if(theUser != null)
+			this.theUser = theUser;
 	}
 }

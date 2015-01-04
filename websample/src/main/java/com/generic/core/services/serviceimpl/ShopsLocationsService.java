@@ -1,7 +1,9 @@
 package com.generic.core.services.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -14,6 +16,7 @@ import com.generic.core.model.entities.ShopsLocations;
 import com.generic.core.respository.ShopsLocationsRepository;
 import com.generic.core.services.service.ShopsLocationsServiceI;
 import com.generic.core.utilities.UtilConstants;
+import com.generic.rest.dto.LocationDto;
 import com.generic.rest.dto.ShopDto;
 
 @Service
@@ -25,7 +28,6 @@ public class ShopsLocationsService implements ShopsLocationsServiceI{
 
 	@Override
 	public List<ShopDto> findShopsByLocation(String locationId) {
-		
 		Location aLocation = new Location(locationId);
 		List<ShopsLocations> shopsLocations = shopsLocationRepository.findByShopIdLocationIdLocation(aLocation);
 		return convertToShopDto(shopsLocations);
@@ -36,6 +38,28 @@ public class ShopsLocationsService implements ShopsLocationsServiceI{
 		Location aLocation = new Location(locationId);
 		List<ShopsLocations> shopsLocations = shopsLocationRepository.findByShopIdLocationIdLocation(aLocation);
 		return convertToShopDtoAfterFilteringOnShopType(shopsLocations, shopType);
+	}
+
+	@Override
+	public List<LocationDto> findShopTypeByLocation(String locationId) {
+		Location aLocation = new Location(locationId);
+		List<ShopsLocations> shopsLocations = shopsLocationRepository.findByShopIdLocationIdLocation(aLocation);
+		return convertToShopType(shopsLocations);
+	}
+	
+	private List<LocationDto> convertToShopType(List<ShopsLocations> shopsLocation) {
+		List<LocationDto> locationDtoList = new ArrayList<LocationDto>();
+		Set<LocationDto> shopTypeSet = new HashSet<LocationDto>();
+		for(ShopsLocations aShopsLocation : shopsLocation) {
+			String shopType = aShopsLocation.getShopIdLocationId().getShops().getShopType();
+			String[] shopTypeArray = shopType.split(UtilConstants.DELIMETER_BAR);
+			for(String aShopType : shopTypeArray) {
+				LocationDto aLocationDto = new LocationDto(aShopType, aShopType);
+				shopTypeSet.add(aLocationDto);
+			}
+		}
+		locationDtoList.addAll(shopTypeSet);
+		return locationDtoList;
 	}
 	
 	private List<ShopDto> convertToShopDtoAfterFilteringOnShopType(List<ShopsLocations> shopLocations, String shopType) {

@@ -14,4 +14,9 @@ public interface UtilConstants {
 	String TRANSACTION_PREFIX = "TXN_";
 	String GUEST_USER_PREFIX = "GUEST_";
 	String USER_PREFIX = "USER_";
+	
+	/**
+	 * Regex Validation
+	 */
+	String REGEX_IS_NOT_NUMERIC = "[^0-9]+";
 }

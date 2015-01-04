@@ -62,9 +62,14 @@ public class LandingController {
 		return serviceFactory.getLocationService().findByParentLocation(areaId);
 	}
 	
+	@RequestMapping(value="shoptype/{landmarkId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<LocationDto> getShopType(@PathVariable String landmarkId) {
+		
+		return serviceFactory.getShopsLocationService().findShopTypeByLocation(landmarkId);
+	}
 	/**
 	 * Gets shops for a particular landmark.
-	 * URI : $contextConfigLocation/rest/landing/shops/landmark/{landmarkId}
+	 * URI : $contextConfigLocation/rest/landing/shops/landmark/{landmarkId}/{shopType}
 	 * @param landmarkId
 	 * @return
 	 */

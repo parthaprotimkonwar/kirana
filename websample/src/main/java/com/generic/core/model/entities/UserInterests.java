@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="USER_INTERESTS")
+@Table(name="USER_INTERESTS", schema="transaction")
 public class UserInterests implements Serializable{
 
 	/**
@@ -21,18 +21,11 @@ public class UserInterests implements Serializable{
 	@Id
 	@ManyToOne
 	@JoinColumn(name="USER_ID")
-	private Users user;
+	private Users theUser;
 	
-	@Column(name="INTERESTED_ITEMS")
+	@Column(name="INTERESTED_ITEMS", length=20)
 	private String interestedItems;
 
-	public Users getUser() {
-		return user;
-	}
-
-	public void setUser(Users user) {
-		this.user = user;
-	}
 
 	public String getInterestedItems() {
 		return interestedItems;
@@ -41,5 +34,15 @@ public class UserInterests implements Serializable{
 	public void setInterestedItems(String interestedItems) {
 		this.interestedItems = interestedItems;
 	}
+
+	/*public Users getTheUser() {
+		return theUser;
+	}
+
+	public void setTheUser(Users theUser) {
+		this.theUser = theUser;
+	}*/
+
+	
 	
 }
