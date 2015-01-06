@@ -40,7 +40,7 @@ public class ShopsItemsService implements ShopsItemsServiceI{
 		for(ShopsItems aShopItem : shopItems) { 
 			Items aItem = aShopItem.getShopIdItemId().getItem();
 			String sizeId =  aShopItem.getSize().getSizeId();
-			ItemDto aItemDto = new ItemDto(aItem.getItemId(), aItem.getItemName(), aItem.getDescription(), aItem.getImageName(), aShopItem.getPrice(), sizeId);
+			ItemDto aItemDto = new ItemDto(aItem.getItemId(), aItem.getItemName(), aItem.getDescription(), aItem.getBrand(), aItem.getImageName(), aShopItem.getPrice(), sizeId);
 			itemList.add(aItemDto);
 		}
 		return itemList;
@@ -68,7 +68,7 @@ public class ShopsItemsService implements ShopsItemsServiceI{
 			if(items == null) 
 				items = new ArrayList<ItemDto>();
 			
-			ItemDto anItemDto = new ItemDto(aItem.getItemId(), aItem.getItemName(), aItem.getDescription(), aItem.getImageName(), aShopItem.getPrice(), aShopItem.getSize().getSizeId());
+			ItemDto anItemDto = new ItemDto(aItem.getItemId(), aItem.getItemName(), aItem.getDescription(), aItem.getBrand(), aItem.getImageName(), aShopItem.getPrice(), aShopItem.getSize().getSizeId());
 			
 			items.add(anItemDto);
 			childInventory.put(childCategoryDto, items);

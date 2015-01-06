@@ -5,14 +5,16 @@ public class ItemDto {
 	private String itemId;
 	private String itemName;
 	private String description;
+	private String brand;
 	private String imagePath;
 	private String price;
 	private String sizeId;
 	
-	public ItemDto(String itemId, String itemName, String description, String imagePath, String price, String sizeId) {
+	public ItemDto(String itemId, String itemName, String description, String brand, String imagePath, String price, String sizeId) {
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.description = description;
+		this.brand = brand;
 		this.imagePath = imagePath;
 		this.price = price;
 		this.sizeId = sizeId;
@@ -82,6 +84,14 @@ public class ItemDto {
 	public int hashCode() {
 		int hashcode = this.itemId == null ? 17 : this.itemId.hashCode();
 		return hashcode;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
 }

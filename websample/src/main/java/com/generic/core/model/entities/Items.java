@@ -40,6 +40,9 @@ public class Items implements Serializable{
 	@Column(name="DESCRIPTION", length=200)
 	private String description;
 	
+	@Column(name="BRAND", length=100)
+	private String brand;
+	
 	@ManyToOne
 	@JoinColumn(name="CATEGORY_ID")
 	private Categories category;
@@ -93,6 +96,14 @@ public class Items implements Serializable{
 
 	public void setShopItem(Set<ShopsItems> shopItem) {
 		this.shopItem = shopItem;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 	
 }
