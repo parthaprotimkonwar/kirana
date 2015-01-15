@@ -1,5 +1,7 @@
 package com.generic.core.config;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 import javax.annotation.Resource;
@@ -61,12 +63,28 @@ public class ApplicationContext {
 	
 	@Bean
     public DataSource dataSource() {
-
+		
+		URI dbUri;
+		String username = null;
+		String password = null;
+		String dbUrl = null;
+		try {
+			dbUri = new URI(System.getenv("DATABASE_URL"));
+			username = dbUri.getUserInfo().split(":")[0];
+	        password = dbUri.getUserInfo().split(":")[1];
+	        dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+		} catch (URISyntaxException e) {
+			username = environment.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME);
+	        password = environment.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD);
+	        dbUrl = environment.getRequiredProperty(PROPERTY_NAME_DATABASE_URL);
+		}
+		
 		BoneCPDataSource dataSource = new BoneCPDataSource();
     	dataSource.setDriverClass(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
-    	dataSource.setJdbcUrl(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
-    	dataSource.setUsername(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
-    	dataSource.setPassword(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
+    	dataSource.setJdbcUrl(dbUrl);
+    	dataSource.setUsername(username);
+    	dataSource.setPassword(password);
+    	
     	return dataSource;
     }
 	
