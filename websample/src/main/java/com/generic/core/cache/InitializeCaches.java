@@ -27,15 +27,14 @@ public class InitializeCaches implements ApplicationListener<ContextRefreshedEve
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 
 		//initialize LocationCache
-		/*
-		LocationCache locationCache = LocationCache.getInstance();
+		/*LocationCache locationCache = LocationCache.getInstance();
 		List<Location> locations = services.getLocationService().findAllLocations();
-		locationCache.updateCache(locations);
+		locationCache.updateCache(locations);*/
 		
 		SizeCache measurableQuantityCache = SizeCache.getInstance();
 		List<Size> size = services.getQuantityService().findAllQuantity();
 		measurableQuantityCache.updateCache(size);
-		*/
+		
 		
 		/*//initialize ShopCache
 		ShopsCache shopCache = ShopsCache.getInstance();

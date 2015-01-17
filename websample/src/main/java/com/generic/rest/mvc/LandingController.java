@@ -99,7 +99,7 @@ public class LandingController {
 	
 	/**
 	 * Gets list of all locations sizes available
-	 * URI : $contextConfigLocation/rest/landing/permissible/quantity
+	 * URI : $contextConfigLocation/rest/landing/permissible/size
 	 * @return
 	 */
 	@RequestMapping(value="/permissible/size", produces=MediaType.APPLICATION_JSON_VALUE)
