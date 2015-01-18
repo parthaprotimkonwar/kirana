@@ -31,6 +31,5 @@ public class ValidationRules {
 		locationRules.put("cityName", cityNameListRules);
 		locationRules.put("areaName", areaNameListRules);
 		locationRules.put("landmark", landmarkListRules);
-		
 	}
 }

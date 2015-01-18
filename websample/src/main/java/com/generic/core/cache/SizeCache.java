@@ -26,7 +26,6 @@ public class SizeCache {
 			String[] permissibleValueArray = formatPermissibleValues(permissibleValues);
 			sizeQuantity.put(size.getSizeId() , permissibleValueArray);
 		}
-		
 	}
 	
 	

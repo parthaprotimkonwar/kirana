@@ -1,6 +1,9 @@
 package com.generic.core.onboarding.exceldto;
 
-public class ExcelLocationDto {
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+
+public class ExcelLocationDto implements Excel {
 
 	private String cityName;
 	private String areaName;
@@ -12,6 +15,16 @@ public class ExcelLocationDto {
 		this.landmark = landmark;
 	}
 
+	@Override
+	public Object createDataTypeObject(Row row) {
+		Cell city = row.getCell(0, Row.CREATE_NULL_AS_BLANK);
+		Cell area = row.getCell(1, Row.CREATE_NULL_AS_BLANK);
+		Cell landmark = row.getCell(2, Row.CREATE_NULL_AS_BLANK);
+
+		return new ExcelLocationDto(city.toString(), area.toString(), landmark.toString());
+	}
+	
+	
 	public String getCityName() {
 		return cityName;
 	}
