@@ -9,6 +9,9 @@ public class ExcelLocationDto implements Excel {
 	private String areaName;
 	private String landmark;
 	
+	public ExcelLocationDto() {
+	}
+	
 	public ExcelLocationDto(String cityName, String areaName, String landmark) {
 		this.cityName = cityName;
 		this.areaName = areaName;

@@ -73,7 +73,7 @@ public class ApplicationContext {
 			username = dbUri.getUserInfo().split(":")[0];
 	        password = dbUri.getUserInfo().split(":")[1];
 	        dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-		} catch (URISyntaxException e) {
+		} catch (Exception e) {
 			username = environment.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME);
 	        password = environment.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD);
 	        dbUrl = environment.getRequiredProperty(PROPERTY_NAME_DATABASE_URL);

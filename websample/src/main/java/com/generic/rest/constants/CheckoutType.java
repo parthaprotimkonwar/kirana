@@ -2,7 +2,7 @@ package com.generic.rest.constants;
 
 public enum CheckoutType {
 
-	GUEST("GUEST"), LOGIN("LOGIN"), FACEBOOK("FACEBOOK"), TWITTER("TWITTER");
+	GUEST("GUEST"), LOGIN("LOGIN"), FACEBOOK("FACEBOOK"), TWITTER("TWITTER"), GPLUS("GPLUS");
 	
 	private String value;
 	
