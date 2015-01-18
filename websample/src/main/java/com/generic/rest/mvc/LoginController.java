@@ -64,7 +64,10 @@ public class LoginController {
 		if(isNullAndEmpty(loginDto.getCheckoutType()))
 			return new ResponseDto(Constants.FAILURE_RESPONSE_CODE, Constants.FAILURE_RESPONSE_MESSAGE);
 		
-		if(loginDto.getCheckoutType().equals(CheckoutType.GUEST.getValue())) {									// Login as a GUEST
+		if(loginDto.getCheckoutType().equals(CheckoutType.GUEST.getValue()) ||
+				 loginDto.getCheckoutType().equals(CheckoutType.FACEBOOK.getValue()) ||
+						loginDto.getCheckoutType().equals(CheckoutType.GPLUS.getValue())) {									// Login as a GUEST
+																															// or as Facebook or GPLUS
 			String userId= generateUserId(UtilConstants.GUEST_USER_PREFIX); 
 			loginDto.setUserId(userId);
 			
