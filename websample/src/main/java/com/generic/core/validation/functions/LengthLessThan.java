@@ -1,5 +1,7 @@
 package com.generic.core.validation.functions;
 
+import com.generic.core.utilities.Validation;
+import com.generic.rest.constants.Constants;
 import com.generic.rest.dto.ResponseDto;
 
 /**
@@ -16,13 +18,15 @@ public class LengthLessThan implements ValidationFunction{
 	}
 	
 	@Override
-	public ResponseDto validate(String string) {
+	public ResponseDto validate(String objectKey, String objectValue, int objectNumber) {
 		
-		aString = string;
+		aString = objectValue;
 		
 		Boolean check = stringLengthLessThanMaxLength();
-		if(!check)
-			return new ResponseDto("200", "LengthLessThan validation FAILED");
+		if(!check) {
+			String errorResponse = Validation.generateErrorString(objectNumber, objectKey, Constants.LOGGER_ERROR, Constants.VALIDATION_LENGTH_EXCEED_MESSAGE + maxlength);
+			return new ResponseDto(Constants.VALIDATION_LENGTH_EXCEED_CODE, errorResponse);
+		}
 		return null;
 	}
 	

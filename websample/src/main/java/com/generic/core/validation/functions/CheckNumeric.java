@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.generic.core.utilities.UtilConstants;
+import com.generic.core.utilities.Validation;
+import com.generic.rest.constants.Constants;
 import com.generic.rest.dto.ResponseDto;
 
 /**
@@ -13,13 +15,15 @@ import com.generic.rest.dto.ResponseDto;
 public class CheckNumeric implements ValidationFunction{
 
 	private String aString;
+	
 	@Override
-	public ResponseDto validate(String string) {
+	public ResponseDto validate(String objectKey, String objectValue, int objectNumber) {
 		
-		this.aString = string;
+		this.aString = objectValue;
 		Boolean check = checkNumeric();
 		if(!check) {
-			return new ResponseDto("0", "Not Numberic : Failed");
+			String errorResponse = Validation.generateErrorString(objectNumber, objectKey, Constants.LOGGER_ERROR, Constants.VALIDATION_NOT_NUMERIC_MESSAGE);
+			return new ResponseDto(Constants.VALIDATION_NOT_NUMERIC_CODE, errorResponse);
 		}
 		return null;
 	}

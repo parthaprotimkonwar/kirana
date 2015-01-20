@@ -19,11 +19,11 @@ import com.generic.rest.dto.ResponseDto;
 
 public class ExcelUtilities {
 
-	public static List<Object> readExcelSheet(String fileName, Class clazz) throws IOException, InstantiationException, IllegalAccessException {
+	public static List<Object> readExcelSheet(String locationUrl, Class clazz, Boolean headerPresent) throws IOException, InstantiationException, IllegalAccessException {
 		
 		//FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\pkonwar.ORADEV\\Desktop\\kirana_onboarding.xlsm"));
 		
-		URL url = new URL(fileName);
+		URL url = new URL(locationUrl);
 		URLConnection uc = url.openConnection();
 		XSSFWorkbook workbook = new XSSFWorkbook(uc.getInputStream());
 		XSSFSheet sheet = workbook.getSheetAt(1);
@@ -34,6 +34,9 @@ public class ExcelUtilities {
 		Excel excelObject = (Excel)object;
 
 		for (Row row : sheet) {
+			if(row.getRowNum() == 0 && headerPresent)
+				continue;
+
 			//creating a new object row
 			Object aRow = excelObject.createDataTypeObject(row);
 			excelSheet.add(aRow);

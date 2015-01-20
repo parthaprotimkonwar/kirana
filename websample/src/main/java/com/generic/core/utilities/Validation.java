@@ -6,6 +6,20 @@ import java.util.regex.Pattern;
 public class Validation {
 
 	/**
+	 * Generate the Error String
+	 * @param lineNumber
+	 * @param type
+	 * @param errorMessage
+	 * @return
+	 */
+	public static String generateErrorString(int lineNumber, String objectKey, String type, String errorMessage) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("[LineNumber: "+ lineNumber + "]");
+		sb.append("[Field: "+ objectKey + "]");
+		sb.append("[" + type + " : "+ errorMessage + "]");
+		return  sb.toString();
+	}
+	/**
 	 * Regex to check if it is numeric
 	 * @param aString
 	 * @return

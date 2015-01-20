@@ -25,4 +25,14 @@ public interface Constants {
 	
 	String INVALID_LOGIN_CODE = "104";
 	String INVALID_LOGIN_MESSAGE = "Invalid username or password";
+	
+	//validations messages
+	String LOGGER_ERROR = "ERROR";
+	String LOGGER_WARNING = "WARNING";
+	
+	String VALIDATION_NOT_NUMERIC_CODE = "105";
+	String VALIDATION_NOT_NUMERIC_MESSAGE = "Not Numeric";
+	
+	String VALIDATION_LENGTH_EXCEED_CODE = "106";
+	String VALIDATION_LENGTH_EXCEED_MESSAGE = "Length Exceeded. Max allowed length is : ";
 }

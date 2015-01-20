@@ -37,15 +37,16 @@ public class GenericValidation {
 	public List<ResponseDto> validate() throws IllegalArgumentException, IllegalAccessException {
 		if(items == null)
 			return null;
-		
+		int objectNumber = 1;
 		for(Object anObject : items) {
-			List<ResponseDto> result = validateAnItem(anObject);
+			List<ResponseDto> result = validateAnItem(anObject, objectNumber);
 			responseMessage.addAll(result);
+			objectNumber++;
 		}
 		return responseMessage;
 	}
 	
-	private List<ResponseDto> validateAnItem(Object anObject) throws IllegalArgumentException, IllegalAccessException {
+	private List<ResponseDto> validateAnItem(Object anObject, int objectNumber) throws IllegalArgumentException, IllegalAccessException {
 		List<ResponseDto> listOfResponse = new ArrayList<ResponseDto>();
 		Field[] fields = anObject.getClass().getDeclaredFields();
 		// Iterates between all the fields and validates them
@@ -57,7 +58,7 @@ public class GenericValidation {
 			
 			// validates one field based on all rules to be applied.
 			for(ValidationFunction aValidationFn : validationRulesForField) {
-				ResponseDto response = aValidationFn.validate(fieldValue);
+				ResponseDto response = aValidationFn.validate(fieldName , fieldValue, objectNumber);
 				if(response != null)
 					listOfResponse.add(response);
 			}

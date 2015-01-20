@@ -19,4 +19,5 @@ public interface UtilConstants {
 	 * Regex Validation
 	 */
 	String REGEX_IS_NOT_NUMERIC = "[^0-9]+";
+	
 }

@@ -25,7 +25,7 @@ public class ValidationRules {
 		areaNameListRules.add(new LengthLessThan(20));
 		
 		List<ValidationFunction> landmarkListRules = new ArrayList<ValidationFunction>();
-		landmarkListRules.add(new LengthLessThan(15));
+		landmarkListRules.add(new LengthLessThan(20));
 		landmarkListRules.add(new CheckNumeric());
 		
 		locationRules.put("cityName", cityNameListRules);

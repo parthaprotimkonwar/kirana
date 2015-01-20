@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,12 +25,12 @@ public class OnboardingController {
 	private ServicesFactory serviceFactory;
 	
 	@RequestMapping(value="location", method=RequestMethod.POST)
-	public @ResponseBody List<ResponseDto> onboardLocation(@RequestBody String excelSheetLocation) {
+	public @ResponseBody List<ResponseDto> onboardLocation(@RequestBody String excelSheetUrlLocation) {
 		
 		List<Object> locationSheet = null;
 		List<ResponseDto> response = null;
 		try {
-			locationSheet = ExcelUtilities.readExcelSheet(excelSheetLocation, ExcelLocationDto.class);
+			locationSheet = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelLocationDto.class, true);
 			response = ExcelUtilities.validate(ExcelUtilities.class, locationSheet, ValidationRules.locationRules);
 			
 		} catch (InstantiationException | IllegalAccessException | IOException e) {

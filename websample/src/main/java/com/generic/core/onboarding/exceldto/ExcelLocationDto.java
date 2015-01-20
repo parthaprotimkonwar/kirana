@@ -27,6 +27,11 @@ public class ExcelLocationDto implements Excel {
 		return new ExcelLocationDto(city.toString(), area.toString(), landmark.toString());
 	}
 	
+	@Override
+	public String toString() {
+		return "cityName: " + cityName + " :: areaName: " + areaName + " :: landmark: " + landmark;
+	}
+	
 	
 	public String getCityName() {
 		return cityName;
