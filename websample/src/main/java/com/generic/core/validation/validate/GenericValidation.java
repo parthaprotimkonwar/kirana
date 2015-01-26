@@ -59,7 +59,7 @@ public class GenericValidation {
 			// validates one field based on all rules to be applied.
 			for(ValidationFunction aValidationFn : validationRulesForField) {
 				ResponseDto response = aValidationFn.validate(fieldName , fieldValue, objectNumber);
-				if(response != null)
+				if(response != null && !listOfResponse.contains(response))
 					listOfResponse.add(response);
 			}
 		}

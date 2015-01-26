@@ -26,8 +26,8 @@ public class ExcelUtilities {
 		URL url = new URL(locationUrl);
 		URLConnection uc = url.openConnection();
 		XSSFWorkbook workbook = new XSSFWorkbook(uc.getInputStream());
-		XSSFSheet sheet = workbook.getSheetAt(1);
-		System.out.println("First Sheet: " + workbook.getSheetName(1));
+		XSSFSheet sheet = workbook.getSheetAt(0);
+		System.out.println("First Sheet: " + workbook.getSheetName(0));
 		List<Object> excelSheet = new ArrayList<Object>();
 		
 		Object object = clazz.newInstance();
@@ -39,8 +39,10 @@ public class ExcelUtilities {
 
 			//creating a new object row
 			Object aRow = excelObject.createDataTypeObject(row);
-			excelSheet.add(aRow);
-			System.out.println(aRow);
+			if(aRow != null) {
+				excelSheet.add(aRow);
+				System.out.println(aRow);
+			}
 		}
 		//fileInputStream.close();
 		return excelSheet;

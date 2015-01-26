@@ -3,6 +3,8 @@ package com.generic.core.onboarding.exceldto;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+import com.generic.core.utilities.Util;
+
 public class ExcelLocationDto implements Excel {
 
 	private String cityName;
@@ -24,6 +26,8 @@ public class ExcelLocationDto implements Excel {
 		Cell area = row.getCell(1, Row.CREATE_NULL_AS_BLANK);
 		Cell landmark = row.getCell(2, Row.CREATE_NULL_AS_BLANK);
 
+		if(Util.allValuesAreNullAndEmpty(city.toString(), area.toString(), landmark.toString()))
+			return null;
 		return new ExcelLocationDto(city.toString(), area.toString(), landmark.toString());
 	}
 	

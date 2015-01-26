@@ -34,6 +34,9 @@ public class Shops implements Serializable {
 	@Column(name = "SHOP_NAME", length=20)
 	private String shopName;
 
+	@Column(name = "SHOP_ADDRESS", length=200)
+	private String shopAddress;
+	
 	@Column(name = "SHOP_TYPE", length=255)
 	private String shopType;
 

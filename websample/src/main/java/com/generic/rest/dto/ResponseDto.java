@@ -1,5 +1,7 @@
 package com.generic.rest.dto;
 
+import static com.generic.core.utilities.Util.chooseFirstIfNotNull;
+
 public class ResponseDto {
 
 	private String statusCode;
@@ -16,6 +18,23 @@ public class ResponseDto {
 
 	public String getStatusMessage() {
 		return statusMessage;
+	}
+	
+	@Override
+	public int hashCode() {
+		String statusCode = chooseFirstIfNotNull(this.statusCode, "");
+		String statusMessage = chooseFirstIfNotNull(this.statusMessage , "");
+		return statusCode.hashCode() + statusMessage.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object that) {
+		
+		if(that == null || this.getClass() != that.getClass())
+			return false;
+		
+		ResponseDto responseDto = (ResponseDto)that;
+		return statusCode.equals(responseDto.getStatusCode()) && statusMessage.equals(responseDto.getStatusMessage());
 	}
 	
 	@Override

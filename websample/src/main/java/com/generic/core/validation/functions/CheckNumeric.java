@@ -3,6 +3,7 @@ package com.generic.core.validation.functions;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.generic.core.utilities.Util;
 import com.generic.core.utilities.UtilConstants;
 import com.generic.core.utilities.Validation;
 import com.generic.rest.constants.Constants;
@@ -20,6 +21,11 @@ public class CheckNumeric implements ValidationFunction{
 	public ResponseDto validate(String objectKey, String objectValue, int objectNumber) {
 		
 		this.aString = objectValue;
+		if(Util.isNullAndEmpty(objectValue)) {
+			String errorResponse = Validation.generateErrorString(objectNumber, objectKey, Constants.LOGGER_WARNING, Constants.VALIDATION_NULL_DATA_MESSAGE);
+			return new ResponseDto(Constants.VALIDATION_NULL_DATA_CODE, errorResponse);
+		}
+		
 		Boolean check = checkNumeric();
 		if(!check) {
 			String errorResponse = Validation.generateErrorString(objectNumber, objectKey, Constants.LOGGER_ERROR, Constants.VALIDATION_NOT_NUMERIC_MESSAGE);

@@ -35,4 +35,10 @@ public interface Constants {
 	
 	String VALIDATION_LENGTH_EXCEED_CODE = "106";
 	String VALIDATION_LENGTH_EXCEED_MESSAGE = "Length Exceeded. Max allowed length is : ";
+	
+	String VALIDATION_INVALID_EMAIL_CODE = "107";
+	String VALIDATION_INVALID_EMAIL_MESSAGE = "Invalid Email format";
+	
+	String VALIDATION_NULL_DATA_CODE = "108";
+	String VALIDATION_NULL_DATA_MESSAGE = "Value is empty";
 }

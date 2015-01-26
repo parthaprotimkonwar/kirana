@@ -1,5 +1,6 @@
 package com.generic.core.validation.functions;
 
+import com.generic.core.utilities.Util;
 import com.generic.core.utilities.Validation;
 import com.generic.rest.constants.Constants;
 import com.generic.rest.dto.ResponseDto;
@@ -21,6 +22,10 @@ public class LengthLessThan implements ValidationFunction{
 	public ResponseDto validate(String objectKey, String objectValue, int objectNumber) {
 		
 		aString = objectValue;
+		if(Util.isNullAndEmpty(objectValue)) {
+			String errorResponse = Validation.generateErrorString(objectNumber, objectKey, Constants.LOGGER_WARNING, Constants.VALIDATION_NULL_DATA_MESSAGE);
+			return new ResponseDto(Constants.VALIDATION_NULL_DATA_CODE, errorResponse);
+		}
 		
 		Boolean check = stringLengthLessThanMaxLength();
 		if(!check) {

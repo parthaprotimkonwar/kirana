@@ -19,5 +19,9 @@ public interface UtilConstants {
 	 * Regex Validation
 	 */
 	String REGEX_IS_NOT_NUMERIC = "[^0-9]+";
+	//abc1@gmail.com
+	
+	//(?!.*\\.{2}) : Negative lookahead operator for not accepting two consecutive dots
+	String REGEX_IS_EMAIL = "(?!.*\\.{2})[a-zA-Z0-9-_~!$&'()*+,;=:.]+[@][a-zA-Z0-9]+[.][.a-zA-Z]*[a-zA-Z]+";
 	
 }

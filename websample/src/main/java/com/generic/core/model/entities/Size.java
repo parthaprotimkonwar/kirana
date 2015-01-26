@@ -19,7 +19,7 @@ public class Size implements Serializable {
 	@Column(name="SIZE_ID", length=20)
 	private String sizeId;
 	
-	@Column(name="SIZE_NAME", length=50)
+	@Column(name="SIZE_NAME", length=200)
 	private String sizeName;
 	
 	@Column(name="UNIT", length=10)
