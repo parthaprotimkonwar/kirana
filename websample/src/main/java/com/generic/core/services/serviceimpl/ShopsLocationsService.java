@@ -71,11 +71,11 @@ public class ShopsLocationsService implements ShopsLocationsServiceI{
 			if(landmarkCache.containsKey(aShop.getShopId())) {
 				ShopLandmarkDto aShopLocationDto = landmarkCache.get(aShop.getShopId());
 				List<LandmarkDto> shopsLandmark = aShopLocationDto.getLocations();
-				shopsLandmark.add(new LandmarkDto(landmarkLocation.getLocationId(), landmarkLocation.getLocationName()));
+				shopsLandmark.add(new LandmarkDto(landmarkLocation.getLocationId(), landmarkLocation.getLocationName(), areaLocation.getLocationName()));
 			} else {
 				ShopLandmarkDto aShopLandmarkDto = new ShopLandmarkDto();
 				List<LandmarkDto> shopsLandmark = new ArrayList<LandmarkDto>();
-				shopsLandmark.add(new LandmarkDto(landmarkLocation.getLocationId(), landmarkLocation.getLocationName()));
+				shopsLandmark.add(new LandmarkDto(landmarkLocation.getLocationId(), landmarkLocation.getLocationName(), areaLocation.getLocationName()));
 				aShopLandmarkDto.setShopName(aShop.getShopName()); aShopLandmarkDto.setLocations(shopsLandmark);
 				landmarkCache.put(aShop.getShopId(), aShopLandmarkDto);
 			}

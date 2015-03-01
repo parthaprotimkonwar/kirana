@@ -4,13 +4,15 @@ public class LandmarkDto {
 
 	private String landmarkId;
 	private String landmarkName;
-
+	private String areaName;
+	
 	public LandmarkDto() {
 	}
 	
-	public LandmarkDto(String landmarkId, String landmarkName) {
+	public LandmarkDto(String landmarkId, String landmarkName, String areaName) {
 		this.landmarkId = landmarkId;
 		this.landmarkName = landmarkName;
+		this.areaName = areaName;
 	}
 	
 	@Override
@@ -22,6 +24,14 @@ public class LandmarkDto {
 		return thatLocation.landmarkId.equals(this.landmarkId);
 	}
 	
+	public String getAreaName() {
+		return areaName;
+	}
+
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
+	}
+
 	@Override
 	public int hashCode() {
 		return landmarkId == null || landmarkId.trim().isEmpty() ? 17 : landmarkId.hashCode();
