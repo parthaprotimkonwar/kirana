@@ -41,4 +41,6 @@ public interface Constants {
 	
 	String VALIDATION_NULL_DATA_CODE = "108";
 	String VALIDATION_NULL_DATA_MESSAGE = "Value is empty";
+	
+	String DATABASE_ERROR = "109";
 }

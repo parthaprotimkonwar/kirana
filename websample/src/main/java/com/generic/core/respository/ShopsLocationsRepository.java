@@ -13,4 +13,6 @@ import com.generic.core.model.entities.ShopsLocations;
 public interface ShopsLocationsRepository extends JpaRepository<ShopsLocations, ShopIdLocationId>{
 
 	List<ShopsLocations> findByShopIdLocationIdLocation(Location location);
+	
+	List<ShopsLocations> findByShopIdLocationIdLocationParentLocationParentLocation(Location location);
 }

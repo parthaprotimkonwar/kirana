@@ -17,6 +17,30 @@ import com.generic.rest.constants.SessionStoreConstants;
  */
 public class Util {
 
+	/**
+	 * Generates unique no
+	 * @return
+	 */
+	public static String generateUniqueNumber(){
+	
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyhhmmssS");
+		return sdf.format(d);
+	}
+	
+	/**
+	 * Generate the Error String
+	 * @param lineNumber
+	 * @param type
+	 * @param errorMessage
+	 * @return
+	 */
+	public static String generateErrorString(int lineNumber, String type, String errorMessage) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("[LineNumber: "+ lineNumber + "]");
+		sb.append("[" + type + " : "+ errorMessage + "]");
+		return  sb.toString();
+	}
 	
 	public static int max(int firstNo, int secondNo) {
 		return firstNo > secondNo ? firstNo : secondNo;
@@ -110,6 +134,7 @@ public class Util {
 		cal.add(Calendar.DATE, numOfDays);
 		return cal.getTime();
 	}
+	
 	
 	/*public static void main(String[] args) {
 		String[] arr = splitStringsToArray("\\|", "partha|anurag|rajith");

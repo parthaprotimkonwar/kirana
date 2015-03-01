@@ -1,8 +1,10 @@
 package com.generic.core.services.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -16,8 +18,10 @@ import com.generic.core.model.entities.ShopsLocations;
 import com.generic.core.respository.ShopsLocationsRepository;
 import com.generic.core.services.service.ShopsLocationsServiceI;
 import com.generic.core.utilities.UtilConstants;
+import com.generic.rest.dto.LandmarkDto;
 import com.generic.rest.dto.LocationDto;
 import com.generic.rest.dto.ShopDto;
+import com.generic.rest.dto.ShopLandmarkDto;
 
 @Service
 @Transactional
@@ -45,6 +49,38 @@ public class ShopsLocationsService implements ShopsLocationsServiceI{
 		Location aLocation = new Location(locationId);
 		List<ShopsLocations> shopsLocations = shopsLocationRepository.findByShopIdLocationIdLocation(aLocation);
 		return convertToShopType(shopsLocations);
+	}
+
+	@Override
+	public Map<String, ShopLandmarkDto> findShopsConcadinatedWithLocation(String cityId) {
+		
+		Location aLocation = new Location(cityId);
+		List<ShopsLocations> shopsLocations = shopsLocationRepository.findByShopIdLocationIdLocationParentLocationParentLocation(aLocation);
+		return concadenateLocationAndShop(shopsLocations);
+	}
+	
+	private Map<String, ShopLandmarkDto> concadenateLocationAndShop(List<ShopsLocations> shopsLocations) {
+		
+		List<ShopDto> shops = new ArrayList<ShopDto>();
+		Map<String, ShopLandmarkDto> landmarkCache = new HashMap<String, ShopLandmarkDto>();
+		
+		for(ShopsLocations aShopLocation : shopsLocations) {
+			Shops aShop = aShopLocation.getShopIdLocationId().getShops();
+			Location landmarkLocation = aShopLocation.getShopIdLocationId().getLocation();
+			Location areaLocation = landmarkLocation.getParentLocation();
+			if(landmarkCache.containsKey(aShop.getShopId())) {
+				ShopLandmarkDto aShopLocationDto = landmarkCache.get(aShop.getShopId());
+				List<LandmarkDto> shopsLandmark = aShopLocationDto.getLocations();
+				shopsLandmark.add(new LandmarkDto(landmarkLocation.getLocationId(), landmarkLocation.getLocationName()));
+			} else {
+				ShopLandmarkDto aShopLandmarkDto = new ShopLandmarkDto();
+				List<LandmarkDto> shopsLandmark = new ArrayList<LandmarkDto>();
+				shopsLandmark.add(new LandmarkDto(landmarkLocation.getLocationId(), landmarkLocation.getLocationName()));
+				aShopLandmarkDto.setShopName(aShop.getShopName()); aShopLandmarkDto.setLocations(shopsLandmark);
+				landmarkCache.put(aShop.getShopId(), aShopLandmarkDto);
+			}
+		}
+		return landmarkCache;
 	}
 	
 	private List<LocationDto> convertToShopType(List<ShopsLocations> shopsLocation) {

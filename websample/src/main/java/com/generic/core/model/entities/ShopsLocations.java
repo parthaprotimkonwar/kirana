@@ -26,4 +26,10 @@ public class ShopsLocations implements Serializable{
 		this.shopIdLocationId = shopIdLocationId;
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "[Shop : " + shopIdLocationId.getShops() + "]" + "[Location : " + shopIdLocationId.getLocation() + "]";
+	}
+	
 }

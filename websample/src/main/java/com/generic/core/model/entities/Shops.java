@@ -58,6 +58,11 @@ public class Shops implements Serializable {
 	@OneToMany(mappedBy = "shopIdLocationId.shops")
 	private Set<ShopsLocations> shopsLocations;
 
+	@Override
+	public String toString() {
+		return "ShopId :" + shopId + "| ShopName : " + shopName;
+	}
+	
 	public String getShopName() {
 		return shopName;
 	}

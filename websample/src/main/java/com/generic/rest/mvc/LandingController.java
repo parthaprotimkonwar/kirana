@@ -22,6 +22,7 @@ import com.generic.rest.dto.CategoryDto;
 import com.generic.rest.dto.ItemDto;
 import com.generic.rest.dto.LocationDto;
 import com.generic.rest.dto.ShopDto;
+import com.generic.rest.dto.ShopLandmarkDto;
 
 @Controller
 @RequestMapping("/rest/landing")
@@ -40,6 +41,11 @@ public class LandingController {
 		return serviceFactory.getLocationService().findAllCities();
 	}
 	
+	@RequestMapping(value="shops/location/{cityId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, ShopLandmarkDto> concatenateShopsLocation(@PathVariable String cityId) {
+		
+		return serviceFactory.getShopsLocationService().findShopsConcadinatedWithLocation(cityId);
+	}
 	/**
 	 * Gets list of areas belonging to a particular city
 	 * URI : $contextConfigLocation/rest/landing/areas/{cityId}
@@ -96,6 +102,8 @@ public class LandingController {
 		return serviceFactory.getShopsItemsService().findAllItemsForAShop(shopId);
 		
 	}
+	
+	
 	
 	/**
 	 * Gets list of all locations sizes available

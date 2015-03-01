@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class Validation {
 
 	/**
-	 * Generate the Error String
+	 * Generate the Error String for Validation Message
 	 * @param lineNumber
 	 * @param type
 	 * @param errorMessage
@@ -19,6 +19,7 @@ public class Validation {
 		sb.append("[" + type + " : "+ errorMessage + "]");
 		return  sb.toString();
 	}
+	
 	/**
 	 * Regex to check if it is numeric
 	 * @param aString

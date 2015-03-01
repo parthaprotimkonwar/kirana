@@ -14,5 +14,10 @@ public interface LocationServiceI {
 	
 	List<LocationDto> findByParentLocation(String locationId);
 	
-	ResponseDto insertLocations(List<Location> locations);
+	/**
+	 * Insert location obtained from excelSheet.
+	 * @param locations
+	 * @return
+	 */
+	List<ResponseDto> insertLocations(List<Object> locations);
 }

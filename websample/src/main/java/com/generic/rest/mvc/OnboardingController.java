@@ -1,6 +1,7 @@
 package com.generic.rest.mvc;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -36,11 +37,20 @@ public class OnboardingController {
 			response = ExcelUtilities.validate(ExcelUtilities.class, locationSheet, ValidationRules.locationRules);
 			
 		} catch (InstantiationException | IllegalAccessException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return response;
 	}
+	
+	@RequestMapping(value="location/push", method=RequestMethod.POST)
+	public @ResponseBody List<ResponseDto> pushLocation(@RequestBody String excelSheetUrlLocation) {
+			
+		//update this
+		List<ResponseDto> result = new ArrayList<ResponseDto>();
+		//serviceFactory.getLocationService().insertLocations(new ArrayList<ExcelLocationDto>());
+		return null;
+	}
+	
 	
 	@RequestMapping(value="shops", method=RequestMethod.POST)
 	public @ResponseBody List<ResponseDto> onboardShops(@RequestBody String excelSheetUrlLocation) {
@@ -52,7 +62,6 @@ public class OnboardingController {
 			response = ExcelUtilities.validate(ExcelUtilities.class, shopsSheet, ValidationRules.shopsRules);
 			
 		} catch (InstantiationException | IllegalAccessException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return response;
@@ -68,7 +77,6 @@ public class OnboardingController {
 			response = ExcelUtilities.validate(ExcelUtilities.class, shopsSheet, ValidationRules.itemsRules);
 			
 		} catch (InstantiationException | IllegalAccessException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return response;

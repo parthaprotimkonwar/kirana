@@ -11,7 +11,7 @@ import com.generic.core.model.entities.Location;
 public interface LocationRepository extends JpaRepository<Location, String>{
 
 	List<Location> findByLocationIdLike(String locationId);
-	
 	List<Location> findByParentLocation(Location parentLocation);
+	List<Location> findByLocationIdLikeOrLocationIdLike(String locationId, String location);
 	 
 }
