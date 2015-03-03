@@ -24,10 +24,10 @@ public interface UtilConstants {
 	//(?!.*\\.{2}) : Negative lookahead operator for not accepting two consecutive dots
 	String REGEX_IS_EMAIL = "(?!.*\\.{2})[a-zA-Z0-9-_~!$&'()*+,;=:.]+[@][a-zA-Z0-9]+[.][.a-zA-Z]*[a-zA-Z]+";
 	
-	/*String CITY_PREFIX = "LOC_CITY_";
-	String AREA_PREFIX = "LOC_AREA_";*/
-	String CITY_PREFIX = "CTY_";
-	String AREA_PREFIX = "ARE_";
+	String CITY_PREFIX = "LOC_CITY_";
+	String AREA_PREFIX = "LOC_AREA_";
+	/*String CITY_PREFIX = "CTY_";
+	String AREA_PREFIX = "ARE_";*/
 	String LANDMARK_PREFIX = "LMK_";
 	
 	
