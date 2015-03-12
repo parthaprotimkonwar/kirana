@@ -20,11 +20,25 @@ public class Items implements Serializable{
 	
 	public Items() {}
 	
-	public Items(String itemId, String itemName, String imageName, String description) {
+	public Items(String itemId) {
+		this.itemId = itemId;
+	}
+	
+	public Items(String itemId, String itemName, String imageName, String description, String brand) {
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.imageName = imageName;
 		this.description = description;
+		this.brand = brand;
+	}
+	
+	public Items(String itemId, String itemName, String imageName, String description, String brand, Categories category) {
+		this.itemId = itemId;
+		this.itemName = itemName;
+		this.imageName = imageName;
+		this.description = description;
+		this.brand = brand;
+		this.category = category;
 	}
 	
 	@Id

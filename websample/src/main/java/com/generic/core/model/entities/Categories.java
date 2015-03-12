@@ -18,6 +18,24 @@ public class Categories implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	public Categories() {
+	}
+	
+	public Categories(String categoryId) {
+		this.categoryId = categoryId;
+	}
+	
+	public Categories(String categoryId, String categoryName) {
+		this.categoryId = categoryId;
+		this.categoryName = categoryName;
+	}
+	
+	public Categories(String categoryId, String categoryName, Categories parentCategory) {
+		this.categoryId = categoryId;
+		this.categoryName = categoryName;
+		this.parentCategory = parentCategory;
+	}
+	
 	@Id
 	@Column(name="CATEGORY_ID", length=20)
 	private String categoryId;

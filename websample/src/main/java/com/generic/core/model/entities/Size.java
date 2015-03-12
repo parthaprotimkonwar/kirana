@@ -15,6 +15,20 @@ public class Size implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public Size() {
+	}
+	
+	public Size(String sizeId) {
+		this.sizeId = sizeId;
+	}
+	
+	public Size(String sizeId, String sizeName, String unit, String permissibleValues) {
+		this.sizeId = sizeId;
+		this.sizeName = sizeName;
+		this.unit = unit;
+		this.permissibleValues = permissibleValues;
+	}
+	
 	@Id
 	@Column(name="SIZE_ID", length=20)
 	private String sizeId;

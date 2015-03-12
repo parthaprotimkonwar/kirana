@@ -27,6 +27,17 @@ public class Shops implements Serializable {
 		this.shopName = shopName;
 	}
 
+	public Shops(String shopId, String shopName, String shopAddress, String shopType, String email, String phoneNumber, String ownerName, String tags) {
+		this.shopId = shopId;
+		this.shopName = shopName;
+		this.shopAddress = shopAddress;
+		this.shopType = shopType;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.ownerName = ownerName;
+		this.tags = tags;
+	}
+	
 	@Id
 	@Column(name = "SHOP_ID", length=20)
 	private String shopId;
@@ -48,6 +59,9 @@ public class Shops implements Serializable {
 
 	@Column(name = "OWNER_NAME", length=20)
 	private String ownerName;
+	
+	@Column(name = "TAGS", length=255)
+	private String tags;
 
 	@OneToMany(mappedBy = "shopIdItemId.shop")
 	private Set<ShopsItems> shopItem;
@@ -55,9 +69,12 @@ public class Shops implements Serializable {
 	@OneToMany(mappedBy = "shop")
 	private Set<Transactions> transactions;
 
-	@OneToMany(mappedBy = "shopIdLocationId.shops")
-	private Set<ShopsLocations> shopsLocations;
+	/*@OneToMany(mappedBy = "shopIdLocationId.shops")
+	private Set<ShopsLocations> shopsLocations;*/
 
+	@OneToMany(mappedBy = "shopIdLandmarkId.shops")
+	private Set<ShopsLandmark> shopsLandmark;
+	
 	@Override
 	public String toString() {
 		return "ShopId :" + shopId + "| ShopName : " + shopName;
@@ -95,13 +112,13 @@ public class Shops implements Serializable {
 		this.shopId = shopId;
 	}
 
-	public Set<ShopsLocations> getShopsLocations() {
+	/*public Set<ShopsLocations> getShopsLocations() {
 		return shopsLocations;
 	}
 
 	public void setShopsLocations(Set<ShopsLocations> shopsLocations) {
 		this.shopsLocations = shopsLocations;
-	}
+	}*/
 
 	public String getShopType() {
 		return shopType;
@@ -133,6 +150,14 @@ public class Shops implements Serializable {
 
 	public void setOwnerName(String ownerName) {
 		this.ownerName = ownerName;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 
 }

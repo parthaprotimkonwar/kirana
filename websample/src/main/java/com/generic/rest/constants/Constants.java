@@ -43,4 +43,9 @@ public interface Constants {
 	String VALIDATION_NULL_DATA_MESSAGE = "Value is empty";
 	
 	String DATABASE_ERROR = "109";
+	
+	//onboarding sheet error
+	
+	String LOCATION_ID_NULL_DATA_CODE = "110";
+	String LOCATION_ID_NULL_DATA_MESSAGE = "Location Id is not present in the Excel Sheet Name";
 }

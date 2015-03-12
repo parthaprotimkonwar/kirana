@@ -30,5 +30,10 @@ public interface UtilConstants {
 	String AREA_PREFIX = "ARE_";*/
 	String LANDMARK_PREFIX = "LMK_";
 	
+	String CITY_ID_NAME_DELIMETER = "-";
+	
+	String CITY_NAME = "CITY_NAME";
+	String CITY_ID = "CITY_ID";
+	
 	
 }

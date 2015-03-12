@@ -7,6 +7,13 @@ public class ShopLandmarkDto {
 	private String shopName;
 	private List<LandmarkDto> locations;
 
+	public ShopLandmarkDto() {}
+	
+	public ShopLandmarkDto(String shopName, List<LandmarkDto> locations) {
+		this.shopName = shopName;
+		this.locations = locations;
+	}
+	
 	public String getShopName() {
 		return shopName;
 	}

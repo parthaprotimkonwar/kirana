@@ -12,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.generic.core.onboarding.exceldto.Excel;
+import com.generic.core.onboarding.exceldto.ExcelSheetObject;
 import com.generic.core.validation.functions.ValidationFunction;
 import com.generic.core.validation.validate.GenericValidation;
 import com.generic.rest.dto.ResponseDto;
@@ -19,16 +20,16 @@ import com.generic.rest.dto.ResponseDto;
 
 public class ExcelUtilities {
 
-	public static List<Object> readExcelSheet(String locationUrl, Class clazz, Boolean headerPresent) throws IOException, InstantiationException, IllegalAccessException {
+	public static ExcelSheetObject readExcelSheet(String locationUrl, Class clazz, Boolean headerPresent) throws IOException, InstantiationException, IllegalAccessException {
 		
 		//FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\pkonwar.ORADEV\\Desktop\\kirana_onboarding.xlsm"));
-		
+		ExcelSheetObject excelSheetObject  = new ExcelSheetObject();
 		URL url = new URL(locationUrl);
 		URLConnection uc = url.openConnection();
 		XSSFWorkbook workbook = new XSSFWorkbook(uc.getInputStream());
 		XSSFSheet sheet = workbook.getSheetAt(0);
 		System.out.println("First Sheet: " + workbook.getSheetName(0));
-		List<Object> excelSheet = new ArrayList<Object>();
+		List<Object> excelSheetRows = new ArrayList<Object>();
 		
 		Object object = clazz.newInstance();
 		Excel excelObject = (Excel)object;
@@ -40,12 +41,14 @@ public class ExcelUtilities {
 			//creating a new object row
 			Object aRow = excelObject.createDataTypeObject(row);
 			if(aRow != null) {
-				excelSheet.add(aRow);
+				excelSheetRows.add(aRow);
 				System.out.println(aRow);
 			}
 		}
+		excelSheetObject.setExcelSheetName(workbook.getSheetName(0));
+		excelSheetObject.setRows(excelSheetRows);
 		//fileInputStream.close();
-		return excelSheet;
+		return excelSheetObject;
 	}
 	
 	

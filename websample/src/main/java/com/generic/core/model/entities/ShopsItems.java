@@ -15,6 +15,28 @@ public class ShopsItems implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public ShopsItems() {
+	}
+	
+	public ShopsItems(ShopIdItemId shopIdItemId) {
+		this.shopIdItemId = shopIdItemId;
+	}
+	
+	public ShopsItems(ShopIdItemId shopIdItemId, String price, String discount, String status) {
+		this.shopIdItemId = shopIdItemId;
+		this.price = price;
+		this.discount = discount;
+		this.status = status;
+	}
+	
+	public ShopsItems(ShopIdItemId shopIdItemId, String price, String discount, String status, Size size) {
+		this.shopIdItemId = shopIdItemId;
+		this.price = price;
+		this.discount = discount;
+		this.status = status;
+		this.size = size;
+	}
+	
 	@EmbeddedId
 	private ShopIdItemId shopIdItemId;
 	
@@ -25,7 +47,7 @@ public class ShopsItems implements Serializable {
 	private String discount;
 	
 	@Column(name="STATUS", length=20)
-	private String Status;
+	private String status;
 
 	//ManyToOne is the foreign key
 	@ManyToOne
@@ -57,11 +79,11 @@ public class ShopsItems implements Serializable {
 	}
 
 	public String getStatus() {
-		return Status;
+		return status;
 	}
 
 	public void setStatus(String status) {
-		Status = status;
+		this.status = status;
 	}
 
 	public Size getSize() {

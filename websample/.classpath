@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target/classes" path="src/main/java">
+	<classpathentry excluding="com/generic/core/model/entities/Location.java|com/generic/core/model/entities/ShopIdLocationId.java|com/generic/core/model/entities/ShopsLocations.java|com/generic/core/respository/ShopsLocationsRepository.java|com/generic/core/respository/LocationRepository.java|com/generic/core/services/service/LocationServiceI.java|com/generic/core/services/serviceimpl/LocationService.java|com/generic/core/services/serviceimpl/ShopsLocationsService.java|com/generic/core/services/service/ShopsLocationsServiceI.java" kind="src" output="target/classes" path="src/main/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>

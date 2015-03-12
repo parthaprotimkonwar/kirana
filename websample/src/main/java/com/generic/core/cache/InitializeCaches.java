@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import com.generic.core.model.entities.Location;
 import com.generic.core.model.entities.Size;
 import com.generic.core.services.serviceimpl.ServicesFactory;
 
@@ -32,7 +31,7 @@ public class InitializeCaches implements ApplicationListener<ContextRefreshedEve
 		locationCache.updateCache(locations);*/
 		
 		SizeCache measurableQuantityCache = SizeCache.getInstance();
-		List<Size> size = services.getQuantityService().findAllQuantity();
+		List<Size> size = services.getSizeService().findAllQuantity();
 		measurableQuantityCache.updateCache(size);
 		
 		

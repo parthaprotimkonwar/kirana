@@ -16,27 +16,34 @@ public class ValidationRules {
 	public static Map<String, List<ValidationFunction>> locationRules = new HashMap<String, List<ValidationFunction>>();
 	public static Map<String, List<ValidationFunction>> shopsRules = new HashMap<String, List<ValidationFunction>>();
 	public static Map<String, List<ValidationFunction>> itemsRules = new HashMap<String, List<ValidationFunction>>();
+	public static Map<String, List<ValidationFunction>> shopItemRules = new HashMap<String, List<ValidationFunction>>();
+	public static Map<String, List<ValidationFunction>> sizeRules = new HashMap<String, List<ValidationFunction>>();
+	public static Map<String, List<ValidationFunction>> categoryRules = new HashMap<String, List<ValidationFunction>>();
 	
-	//private String cityName;
-	//private String areaName;
-	//private String landmark;
+	
 	static {
-		List<ValidationFunction> cityNameListRules = new ArrayList<ValidationFunction>();
-		cityNameListRules.add(new LengthLessThan(20));
+		List<ValidationFunction> areaIdListRules = new ArrayList<ValidationFunction>();
+		areaIdListRules.add(new LengthLessThan(20));
 		
 		List<ValidationFunction> areaNameListRules = new ArrayList<ValidationFunction>();
 		areaNameListRules.add(new LengthLessThan(20));
 		
-		List<ValidationFunction> landmarkListRules = new ArrayList<ValidationFunction>();
-		landmarkListRules.add(new LengthLessThan(20));
-		landmarkListRules.add(new CheckNumeric());
+		List<ValidationFunction> landmarkIdListRules = new ArrayList<ValidationFunction>();
+		landmarkIdListRules.add(new LengthLessThan(20));
 		
-		locationRules.put("cityName", cityNameListRules);
+		List<ValidationFunction> landmarkNameListRules = new ArrayList<ValidationFunction>();
+		landmarkNameListRules.add(new LengthLessThan(20));
+		
+		locationRules.put("areaId", areaIdListRules);
 		locationRules.put("areaName", areaNameListRules);
-		locationRules.put("landmark", landmarkListRules);
+		locationRules.put("landmarkId", landmarkIdListRules);
+		locationRules.put("landmarkName", landmarkNameListRules);
 	}
 	
 	static {
+		List<ValidationFunction> shopIdListRules = new ArrayList<ValidationFunction>();
+		shopIdListRules.add(new LengthLessThan(20));
+		
 		List<ValidationFunction> shopNameListRules = new ArrayList<ValidationFunction>();
 		shopNameListRules.add(new LengthLessThan(20));
 		
@@ -60,6 +67,10 @@ public class ValidationRules {
 		List<ValidationFunction> ownerNameRules = new ArrayList<ValidationFunction>();
 		ownerNameRules.add(new LengthLessThan(20));
 		
+		List<ValidationFunction> tagsRules = new ArrayList<ValidationFunction>();
+		tagsRules.add(new LengthLessThan(100));
+		
+		shopsRules.put("shopId", shopIdListRules);
 		shopsRules.put("shopName", shopNameListRules);
 		shopsRules.put("shopAddress", shopAddressListRules);
 		shopsRules.put("email", emailListRules);
@@ -67,49 +78,105 @@ public class ValidationRules {
 		shopsRules.put("landmarksForDelivery", landmarksForDeliveryRules);
 		shopsRules.put("shopType", shopTypeRules);
 		shopsRules.put("ownerName", ownerNameRules);
+		shopsRules.put("tags", tagsRules);
 	}
 	
+	
 	static {
-		List<ValidationFunction> itemNameRules = new ArrayList<ValidationFunction>();
-		itemNameRules.add(new LengthLessThan(200));
+		List<ValidationFunction> itemIdRules = new ArrayList<ValidationFunction>();
+		itemIdRules.add(new LengthLessThan(200));
+		
+		List<ValidationFunction> brandRules = new ArrayList<ValidationFunction>();
+		brandRules.add(new LengthLessThan(200));
 		
 		List<ValidationFunction> descriptionRules = new ArrayList<ValidationFunction>();
-		descriptionRules.add(new LengthLessThan(200));
+		descriptionRules.add(new LengthLessThan(20));
 		
-		List<ValidationFunction> categoryRules = new ArrayList<ValidationFunction>();
-		categoryRules.add(new LengthLessThan(20));
+		List<ValidationFunction> imageNameRules = new ArrayList<ValidationFunction>();
+		imageNameRules.add(new LengthLessThan(20));
+		
+		List<ValidationFunction> itemNameRules = new ArrayList<ValidationFunction>();
+		itemNameRules.add(new LengthLessThan(10));
+		
+		List<ValidationFunction> categoryIdRules = new ArrayList<ValidationFunction>();
+		categoryIdRules.add(new LengthLessThan(10));
+		
+		itemsRules.put("itemId", itemIdRules);
+		itemsRules.put("brand", brandRules);
+		itemsRules.put("description", descriptionRules);
+		itemsRules.put("imageName", imageNameRules);
+		itemsRules.put("itemName", itemNameRules);
+		itemsRules.put("categoryId", categoryIdRules);
+	}
+	
+	
+	static {
+		// ITEM_ID SIZE_ID PRICE DISCOUNT STATUS SHOP_ID
+		
+		List<ValidationFunction> itemIdRules = new ArrayList<ValidationFunction>();
+		itemIdRules.add(new LengthLessThan(200));
+		
+		List<ValidationFunction> sizeIdRules = new ArrayList<ValidationFunction>();
+		sizeIdRules.add(new LengthLessThan(200));
 		
 		List<ValidationFunction> priceRules = new ArrayList<ValidationFunction>();
 		priceRules.add(new LengthLessThan(20));
-		priceRules.add(new CheckNumeric());
-		
-		List<ValidationFunction> unitRules = new ArrayList<ValidationFunction>();
-		unitRules.add(new LengthLessThan(10));
 		
 		List<ValidationFunction> discountRules = new ArrayList<ValidationFunction>();
-		discountRules.add(new LengthLessThan(10));
+		discountRules.add(new LengthLessThan(20));
 		
 		List<ValidationFunction> statusRules = new ArrayList<ValidationFunction>();
-		statusRules.add(new LengthLessThan(20));
-
-		List<ValidationFunction> quantityValuesRules = new ArrayList<ValidationFunction>();
-		quantityValuesRules.add(new LengthLessThan(200));
+		statusRules.add(new LengthLessThan(10));
 		
-		List<ValidationFunction> imageNameRules = new ArrayList<ValidationFunction>();
-		imageNameRules.add(new LengthLessThan(100));
+		List<ValidationFunction> shopIdRules = new ArrayList<ValidationFunction>();
+		shopIdRules.add(new LengthLessThan(10));
 		
-		List<ValidationFunction> brandRules = new ArrayList<ValidationFunction>();
-		brandRules.add(new LengthLessThan(100));
+		shopItemRules.put("itemId", itemIdRules);
+		shopItemRules.put("sizeId", sizeIdRules);
+		shopItemRules.put("price", priceRules);
+		shopItemRules.put("discount", discountRules);
+		shopItemRules.put("status", statusRules);
+		shopItemRules.put("shopId", shopIdRules);
+	}
+	
+	static {
+		//QuantityId	QuantityName	PermissibleValues	Unit
 		
-		itemsRules.put("itemName", itemNameRules);
-		itemsRules.put("description", descriptionRules);
-		itemsRules.put("category", categoryRules);
-		itemsRules.put("price", priceRules);
-		itemsRules.put("unit", unitRules);
-		itemsRules.put("discount", discountRules);
-		itemsRules.put("status", statusRules);
-		itemsRules.put("quantityValues", quantityValuesRules);
-		itemsRules.put("imageName", imageNameRules);
-		itemsRules.put("brand", brandRules);
+		List<ValidationFunction> quanntityIdRules = new ArrayList<ValidationFunction>();
+		quanntityIdRules.add(new LengthLessThan(200));
+		
+		List<ValidationFunction> quantityNameRules = new ArrayList<ValidationFunction>();
+		quantityNameRules.add(new LengthLessThan(200));
+		
+		List<ValidationFunction> permissibleValuesRules = new ArrayList<ValidationFunction>();
+		permissibleValuesRules.add(new LengthLessThan(20));
+		
+		List<ValidationFunction> unitRules = new ArrayList<ValidationFunction>();
+		unitRules.add(new LengthLessThan(20));
+		
+		sizeRules.put("quantityId", quanntityIdRules);
+		sizeRules.put("quantityName", quantityNameRules);
+		sizeRules.put("permissibleValues", permissibleValuesRules);
+		sizeRules.put("unit", unitRules);
+	}
+	
+	static {
+		// CategoryId CategoryName ParentCategory
+		/*private String categoryId;
+		private String categoryName;
+		private String parentCategory;*/
+		
+		List<ValidationFunction> categoryIdRules = new ArrayList<ValidationFunction>();
+		categoryIdRules.add(new LengthLessThan(200));
+		
+		List<ValidationFunction> categoryNameRules = new ArrayList<ValidationFunction>();
+		categoryNameRules.add(new LengthLessThan(200));
+		
+		List<ValidationFunction> parentCategoryRules = new ArrayList<ValidationFunction>();
+		parentCategoryRules.add(new LengthLessThan(20));
+		
+		categoryRules.put("quantityId", categoryIdRules);
+		categoryRules.put("quantityName", categoryNameRules);
+		categoryRules.put("permissibleValues", parentCategoryRules);
 	}
 }

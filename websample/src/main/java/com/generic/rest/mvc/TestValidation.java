@@ -10,7 +10,7 @@ import com.generic.rest.dto.ResponseDto;
 
 public class TestValidation {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {/*
 		List<ExcelLocationDto> locationList = new ArrayList<ExcelLocationDto>();
 		
 		for(int i=0;i<5;i++) {
@@ -28,5 +28,5 @@ public class TestValidation {
 		for(ResponseDto resp : results) {
 			System.out.println(resp);
 		}
-	}
+	*/}
 }
