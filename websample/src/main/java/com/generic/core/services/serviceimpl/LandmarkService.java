@@ -8,11 +8,12 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.generic.core.model.entities.Area;
+import com.generic.core.model.entities.AreaIdCityId;
 import com.generic.core.model.entities.City;
 import com.generic.core.model.entities.Landmark;
+import com.generic.core.model.entities.LandmarkIdAreaId;
 import com.generic.core.onboarding.exceldto.ExcelLocationDto;
 import com.generic.core.onboarding.exceldto.ExcelSheetObject;
 import com.generic.core.respository.AreaRepository;
@@ -25,7 +26,6 @@ import com.generic.rest.constants.Constants;
 import com.generic.rest.dto.ResponseDto;
 
 @Service
-@Transactional
 public class LandmarkService implements LandmarkServiceI{ 
 
 	@Resource
@@ -37,6 +37,9 @@ public class LandmarkService implements LandmarkServiceI{
 	@Resource
 	AreaRepository areaRepository;
 	
+	/**
+	 * Onboard landmark by adding areas and new cities.
+	 */
 	@Override
 	public List<ResponseDto> onboardLandmarks(ExcelSheetObject excelSheetObject) {
 		
@@ -44,10 +47,10 @@ public class LandmarkService implements LandmarkServiceI{
 		List<ResponseDto> responseDto = new ArrayList<ResponseDto>();					//response message insertion
 		
 		List<String> cityInsertedIds = new ArrayList<String>();
-		List<String> areaInsertedIds = new ArrayList<String>();
-		List<String> landmarkInsertedIds = new ArrayList<String>();
+		List<AreaIdCityId> areaInsertedIds = new ArrayList<AreaIdCityId>();
+		List<LandmarkIdAreaId> landmarkInsertedIds = new ArrayList<LandmarkIdAreaId>();
 		List<ResponseDto> response = new ArrayList<ResponseDto>();
-		int count = 1;
+		int rowCount = 0;
 		Map<String, String> cityDetails = getCityIdName(excelSheetObject.getExcelSheetName());
 		
 		if(!cityDetails.containsKey(UtilConstants.CITY_ID)) {
@@ -58,55 +61,65 @@ public class LandmarkService implements LandmarkServiceI{
 		if(!cityPresent(aCity.getCityId())) {				//new City so insert it into DB.
 			
 			try {
-				cityRepository.save(aCity);
+				cityRepository.saveAndFlush(aCity);
 				cityInsertedIds.add(aCity.getCityId());
 			} catch (Exception e) {
-				String errorResponse = Util.generateErrorString(count, Constants.LOGGER_WARNING, e.getMessage());
+				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, e.getMessage());
 				response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
 			}
 		}
 		
 		for(Object anObject : locationSheetRows) {
+			rowCount++;
 			ExcelLocationDto anExcelLocationDto = (ExcelLocationDto)anObject;
 			String areaId = anExcelLocationDto.getAreaId();
 			String areaName = anExcelLocationDto.getAreaName();
 			String landmarkId = anExcelLocationDto.getLandmarkId();
 			String landmarkName = anExcelLocationDto.getLandmarkName();
-			Area anArea = new Area(areaId, areaName);
-			if(!areaPresent(anArea.getAreaId()) && !areaInsertedIds.contains(areaId)) {				//create a new area if does't exist
+			//AreaIdCity areaIdCityId = new AreaIdCity(areaId, aCity);
+			AreaIdCityId areaIdCityId = new AreaIdCityId(areaId, aCity);
+			Area anArea = new Area(areaIdCityId, areaName);
+			if(!areaPresent(anArea.getAreaIdCityId()) && !areaInsertedIds.contains(areaId)) {				//create a new area if does't exist
 				try {
-					areaRepository.save(anArea);
-					areaInsertedIds.add(areaId);
+					areaRepository.saveAndFlush(anArea);
+					areaInsertedIds.add(anArea.getAreaIdCityId());
 				} catch (Exception e) {
-					String errorResponse = Util.generateErrorString(count, Constants.LOGGER_WARNING, e.getMessage());
+					String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, e.getMessage());
 					response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
 				}
 			}
-			Landmark anLandmark = new Landmark(landmarkId, landmarkName, anArea);
-			if(!landmarkPresent(anLandmark.getLandmarkId()) && !landmarkInsertedIds.contains(landmarkId)) {	// insert a new landmark
-				try {
-					landmarkRepository.save(anLandmark);
-					landmarkInsertedIds.add(landmarkId);
-				} catch (Exception e) {
-					String errorResponse = Util.generateErrorString(count, Constants.LOGGER_WARNING, e.getMessage());
+			//LandmarkIdArea landmarkIdArea = new LandmarkIdArea(landmarkId, anArea);
+			LandmarkIdAreaId landmarkIdAreaId = new LandmarkIdAreaId(landmarkId, anArea);
+			Landmark anLandmark = new Landmark(landmarkIdAreaId, landmarkName);
+			try {
+				if(landmarkPresent(anLandmark.getLandmarkIdAreaId()) || landmarkInsertedIds.contains(anLandmark.getLandmarkIdAreaId())) {
+					String errorContent = "LandmarkId " + Constants.DATABASE_ERROR_KEY_PRESENT;
+					String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, errorContent);
 					response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
+					continue;
 				}
+				landmarkRepository.saveAndFlush(anLandmark);
+				landmarkInsertedIds.add(anLandmark.getLandmarkIdAreaId());
+			} catch (Exception e) {
+				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, e.getCause().getMessage());
+				response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
 			}
 		}
 		
 		// delete the ID's if there are some problems.
 		if(!response.isEmpty()) {
+			for(LandmarkIdAreaId alandmarkInserted : landmarkInsertedIds) {
+				landmarkRepository.delete(alandmarkInserted);
+			}
+			for(AreaIdCityId aAreaInserted : areaInsertedIds) {
+				areaRepository.delete(aAreaInserted);
+			}
 			for(String aCityInsertedId : cityInsertedIds) {
-				cityRepository.delete(new City(aCityInsertedId));
+				cityRepository.delete(aCityInsertedId);
 			}
-			for(String aAreaInsertedId : areaInsertedIds) {
-				areaRepository.delete(new Area(aAreaInsertedId));
-			}
-			for(String alandmarkInsertedId : landmarkInsertedIds) {
-				landmarkRepository.delete(new Landmark(alandmarkInsertedId));
-			}
+			
 		} else {			// no error send success message
-			String successResponse = Constants.SUCCESS_RESPONSE_MESSAGE + ". Records Insserted :" + count;
+			String successResponse = Constants.SUCCESS_RESPONSE_MESSAGE + ". Records Insserted :" + rowCount;
 			response.add(new ResponseDto(Constants.SUCCESS_RESPONSE_CODE, successResponse));
 		}
 		return response;
@@ -114,17 +127,22 @@ public class LandmarkService implements LandmarkServiceI{
 	
 	
 	private Boolean cityPresent(String cityId) {
-		return cityRepository.findOne(cityId).getCityId().trim().length() == 0 ? false : true;
+		return cityRepository.findOne(cityId) == null ? false : true;
 	}
 	
-	private Boolean areaPresent(String areaId) {
-		return areaRepository.findOne(areaId).getAreaId().trim().length() == 0 ? false : true;
+	private Boolean areaPresent(AreaIdCityId areaIdCityId) {
+		return areaRepository.findOne(areaIdCityId) == null ? false : true;
 	}
 	
-	private Boolean landmarkPresent(String landmarkId) {
-		return landmarkRepository.findOne(landmarkId).getLandmarkId().trim().length() == 0 ? false : true;
+	private Boolean landmarkPresent(LandmarkIdAreaId landmarkIdAreaId) {
+		return landmarkRepository.findOne(landmarkIdAreaId) == null ? false : true; 
 	}
 	
+	/**
+	 * Get formatted cityId with name
+	 * @param cityIdWithName
+	 * @return
+	 */
 	private Map<String, String> getCityIdName(String cityIdWithName) {
 		
 		String[] cityDetails  = cityIdWithName.split(UtilConstants.CITY_ID_NAME_DELIMETER);

@@ -60,13 +60,11 @@ public class OnboardingController {
 	@RequestMapping(value="location/push", method=RequestMethod.POST)
 	public @ResponseBody List<ResponseDto> pushLocation(@RequestBody String excelSheetUrlLocation) {
 		
-		List<Object> locationExcelSheetRows = null;
 		List<ResponseDto> response = null;
 		ExcelSheetObject excelSheetObject = null;
 		try {
 			excelSheetObject = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelLocationDto.class, true);
 			response = serviceFactory.getLandmarkService().onboardLandmarks(excelSheetObject);
-					ExcelUtilities.validate(ExcelUtilities.class, locationExcelSheetRows, ValidationRules.locationRules);
 			
 		} catch (InstantiationException | IllegalAccessException | IOException e) {
 			e.printStackTrace();

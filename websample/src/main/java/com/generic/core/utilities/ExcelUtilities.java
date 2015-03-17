@@ -1,5 +1,7 @@
 package com.generic.core.utilities;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -22,11 +24,13 @@ public class ExcelUtilities {
 
 	public static ExcelSheetObject readExcelSheet(String locationUrl, Class clazz, Boolean headerPresent) throws IOException, InstantiationException, IllegalAccessException {
 		
-		//FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\pkonwar.ORADEV\\Desktop\\kirana_onboarding.xlsm"));
+		FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\pkonwar.ORADEV\\Dropbox\\kiranawala\\kiranaconnect\\Documents\\onboarding_filled_data\\Location_onboarding_filled_data.xlsm"));
 		ExcelSheetObject excelSheetObject  = new ExcelSheetObject();
-		URL url = new URL(locationUrl);
-		URLConnection uc = url.openConnection();
-		XSSFWorkbook workbook = new XSSFWorkbook(uc.getInputStream());
+		
+		//URL url = new URL(locationUrl);
+		//URLConnection uc = url.openConnection();
+		//XSSFWorkbook workbook = new XSSFWorkbook(uc.getInputStream());
+		XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 		XSSFSheet sheet = workbook.getSheetAt(0);
 		System.out.println("First Sheet: " + workbook.getSheetName(0));
 		List<Object> excelSheetRows = new ArrayList<Object>();
@@ -47,7 +51,7 @@ public class ExcelUtilities {
 		}
 		excelSheetObject.setExcelSheetName(workbook.getSheetName(0));
 		excelSheetObject.setRows(excelSheetRows);
-		//fileInputStream.close();
+		fileInputStream.close();
 		return excelSheetObject;
 	}
 	

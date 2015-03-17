@@ -1,5 +1,7 @@
 package com.generic.core.model.entities;
 
+import static com.generic.core.utilities.Util.chooseFirstIfNotNull;
+
 import java.io.Serializable;
 import java.util.Set;
 
@@ -10,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.generic.core.model.entities.Area;
 
 @Entity
 @Table(name="LOCATION", schema="factory")
@@ -44,6 +48,20 @@ public class Location implements Serializable{
 	
 	@OneToMany(mappedBy="shopIdLocationId.location")
 	private Set<ShopsLocations> shopslocations;
+
+	@Override
+	public int hashCode() {
+		String locationId = chooseFirstIfNotNull(this.locationId, "");
+		return locationId.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object that) {
+		if(that == null || this.getClass() != that.getClass())
+			return false;
+		Area area = (Area)that;
+		return this.areaId.equals(area.getAreaId());
+	}
 	
 	@Override
 	public String toString() {

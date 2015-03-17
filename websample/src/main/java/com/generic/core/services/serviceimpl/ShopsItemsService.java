@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.generic.core.model.entities.Categories;
 import com.generic.core.model.entities.Items;
@@ -16,10 +15,8 @@ import com.generic.core.model.entities.ShopIdItemId;
 import com.generic.core.model.entities.Shops;
 import com.generic.core.model.entities.ShopsItems;
 import com.generic.core.model.entities.Size;
-import com.generic.core.onboarding.exceldto.ExcelItemsDto;
 import com.generic.core.onboarding.exceldto.ExcelSheetObject;
 import com.generic.core.onboarding.exceldto.ExcelShopItemDto;
-import com.generic.core.onboarding.exceldto.ExcelShopsDto;
 import com.generic.core.respository.ShopsItemsRepository;
 import com.generic.core.services.service.ShopsItemsServiceI;
 import com.generic.core.utilities.Util;
@@ -29,7 +26,6 @@ import com.generic.rest.dto.ItemDto;
 import com.generic.rest.dto.ResponseDto;
 
 @Service
-@Transactional
 public class ShopsItemsService implements ShopsItemsServiceI{
 
 	@Resource
@@ -48,33 +44,43 @@ public class ShopsItemsService implements ShopsItemsServiceI{
 
 		List<ShopIdItemId> shopItemsInsertedIds = new ArrayList<ShopIdItemId>();
 		List<ResponseDto> response = new ArrayList<ResponseDto>();
-		int count = 1;
+		int rowCount = 0;
 		
 		for(Object anShopItemsObject : excelSheetObject.getRows()) {
+			rowCount++;
 			ExcelShopItemDto aSheetRow = (ExcelShopItemDto)anShopItemsObject;
 			
 			ShopIdItemId aShopIdItemId = new ShopIdItemId(new Shops(aSheetRow.getShopId()), new Items(aSheetRow.getItemId()));
 			ShopsItems aShopItem = new ShopsItems(aShopIdItemId, aSheetRow.getPrice(), aSheetRow.getDiscount(), aSheetRow.getStatus(), new Size(aSheetRow.getSizeId()));
 			try {
+				if(shopsItemPresent(aShopItem.getShopIdItemId()) || shopItemsInsertedIds.contains(aShopItem.getShopIdItemId())) {
+					String errorContent = "ShopIdItemId " + Constants.DATABASE_ERROR_KEY_PRESENT;
+					String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, errorContent);
+					response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
+					continue;
+				}
 				shopItemRepository.save(aShopItem);
 				shopItemsInsertedIds.add(aShopItem.getShopIdItemId());
 			} catch (Exception e) {
-				String errorResponse = Util.generateErrorString(count, Constants.LOGGER_WARNING, e.getMessage());
+				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_WARNING, e.getMessage());
 				response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
 			}
 		}
 
 		if(!response.isEmpty()) {
 			for(ShopIdItemId aShopInsertedId : shopItemsInsertedIds) {
-				shopItemRepository.delete(new ShopsItems(aShopInsertedId));
+				shopItemRepository.delete(aShopInsertedId);
 			}
 		} else {			// no error send success message
-			String successResponse = Constants.SUCCESS_RESPONSE_MESSAGE + ". Records Insserted :" + count;
+			String successResponse = Constants.SUCCESS_RESPONSE_MESSAGE + ". Records Insserted :" + rowCount;
 			response.add(new ResponseDto(Constants.SUCCESS_RESPONSE_CODE, successResponse));
 		}
 		return response;
 	}
 	
+	private Boolean shopsItemPresent(ShopIdItemId shopIdItemId) {
+		return shopItemRepository.findOne(shopIdItemId) == null ? false : true;
+	}
 	
 	private List<ItemDto> convertToItemDto(List<ShopsItems> shopItems) {
 		

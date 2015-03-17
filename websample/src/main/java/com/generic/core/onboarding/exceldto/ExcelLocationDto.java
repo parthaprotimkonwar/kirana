@@ -27,7 +27,7 @@ public class ExcelLocationDto implements Excel {
 		Cell areaId = row.getCell(0, Row.CREATE_NULL_AS_BLANK);
 		Cell areaName = row.getCell(1, Row.CREATE_NULL_AS_BLANK);
 		Cell landmarkId = row.getCell(2, Row.CREATE_NULL_AS_BLANK);
-		Cell landmarkName = row.getCell(2, Row.CREATE_NULL_AS_BLANK);
+		Cell landmarkName = row.getCell(3, Row.CREATE_NULL_AS_BLANK);
 
 		if(Util.allValuesAreNullAndEmpty(areaId.toString(), areaName.toString(), landmarkId.toString(), landmarkName.toString()))
 			return null;

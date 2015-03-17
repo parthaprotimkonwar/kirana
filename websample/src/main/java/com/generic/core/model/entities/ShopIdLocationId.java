@@ -16,7 +16,6 @@ public class ShopIdLocationId implements Serializable{
 	public ShopIdLocationId() {}
 	
 	public ShopIdLocationId(Shops shops, Location location) {
-		
 		this.shops = shops;
 		this.location = location;
 	}

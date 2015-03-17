@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.generic.core.model.entities.Categories;
 import com.generic.core.model.entities.Items;
@@ -19,7 +18,6 @@ import com.generic.rest.constants.Constants;
 import com.generic.rest.dto.ResponseDto;
 
 @Service
-@Transactional
 public class ItemService implements ItemServiceI {
 
 	@Resource
@@ -36,31 +34,41 @@ public class ItemService implements ItemServiceI {
 
 		List<String> itemInsertedIds = new ArrayList<String>();
 		List<ResponseDto> response = new ArrayList<ResponseDto>();
-		int count = 1;
+		int rowCount = 1;
 		
 		for(Object anItemObject : excelSheetObject.getRows()) {
+			rowCount++;
 			ExcelItemsDto aSheetRow = (ExcelItemsDto)anItemObject;
 			Categories aCategory = new Categories(aSheetRow.getCategoryId());
 			Items anItem = new Items(aSheetRow.getItemId(), aSheetRow.getItemName(), aSheetRow.getImageName(), aSheetRow.getDescription(), aSheetRow.getBrand(), aCategory);
 			try {
-				itemRepository.save(anItem);
+				if(itemPresent(anItem.getItemId()) || itemInsertedIds.contains(anItem.getItemId())) {
+					String errorContent = "ItemId " + Constants.DATABASE_ERROR_KEY_PRESENT;
+					String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, errorContent);
+					response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
+					continue;
+				}
+				itemRepository.saveAndFlush(anItem);
 				itemInsertedIds.add(anItem.getItemId());
 			} catch (Exception e) {
-				String errorResponse = Util.generateErrorString(count, Constants.LOGGER_WARNING, e.getMessage());
+				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_WARNING, e.getMessage());
 				response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
 			}
 		}
 
 		if(!response.isEmpty()) {
 			for(String aItemInsertedId : itemInsertedIds) {
-				itemRepository.delete(new Items(aItemInsertedId));
+				itemRepository.delete(aItemInsertedId);
 			}
 		} else {			// no error send success message
-			String successResponse = Constants.SUCCESS_RESPONSE_MESSAGE + ". Records Insserted :" + count;
+			String successResponse = Constants.SUCCESS_RESPONSE_MESSAGE + ". Records Insserted :" + rowCount;
 			response.add(new ResponseDto(Constants.SUCCESS_RESPONSE_CODE, successResponse));
 		}
 		return response;
 	}
 
+	private Boolean itemPresent(String itemId) {
+		return itemRepository.findOne(itemId) == null ? false : true;
+	}
 	
 }

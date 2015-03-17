@@ -71,6 +71,20 @@ public class Util {
 		return data.split(delimeter);
 	}
 	
+	/**
+	 * Returns if any of the string are null
+	 * @param strings
+	 * @return
+	 */
+	public static Boolean isNull(String...strings) {
+		
+		for(String aString : strings) {
+			if(aString == null)
+				return true;
+		}
+		return false;
+	}
+
 	public static Boolean isNullAndEmpty(String...strings) {
 		
 		for(String aString : strings) {

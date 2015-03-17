@@ -43,7 +43,7 @@ public interface Constants {
 	String VALIDATION_NULL_DATA_MESSAGE = "Value is empty";
 	
 	String DATABASE_ERROR = "109";
-	
+	String DATABASE_ERROR_KEY_PRESENT = "Key already present"; 
 	//onboarding sheet error
 	
 	String LOCATION_ID_NULL_DATA_CODE = "110";

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.generic.core.model.entities.Size;
 import com.generic.core.onboarding.exceldto.ExcelSheetObject;
@@ -18,7 +17,6 @@ import com.generic.rest.constants.Constants;
 import com.generic.rest.dto.ResponseDto;
 
 @Service
-@Transactional
 public class SizeService implements SizeServiceI{
 
 	@Resource
@@ -38,29 +36,40 @@ public class SizeService implements SizeServiceI{
 
 		List<String> sizeInsertedIds = new ArrayList<String>();
 		List<ResponseDto> response = new ArrayList<ResponseDto>();
-		int count = 1;
+		int rowCount = 0;
 		
 		for(Object anSizeObject : excelSheetObject.getRows()) {
+			rowCount++;
 			ExcelSizeDto aSheetRow = (ExcelSizeDto)anSizeObject;
 			Size aSize = new Size(aSheetRow.getQuantityId(), aSheetRow.getQuantityName(), aSheetRow.getUnit(), aSheetRow.getPermissibleValues());
 			try {
+				if(sizePresent(aSize.getSizeId()) || sizeInsertedIds.contains(aSize.getSizeId())) {
+					String errorContent = "ShopId " + Constants.DATABASE_ERROR_KEY_PRESENT;
+					String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, errorContent);
+					response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
+					continue;
+				}
 				sizeRepository.save(aSize);
 				sizeInsertedIds.add(aSize.getSizeId());
 			} catch (Exception e) {
-				String errorResponse = Util.generateErrorString(count, Constants.LOGGER_WARNING, e.getMessage());
+				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_WARNING, e.getMessage());
 				response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
 			}
 		}
 
 		if(!response.isEmpty()) {
 			for(String aSizeInsertedId : sizeInsertedIds) {
-				sizeRepository.delete(new Size(aSizeInsertedId));
+				sizeRepository.delete(aSizeInsertedId);
 			}
 		} else {			// no error send success message
-			String successResponse = Constants.SUCCESS_RESPONSE_MESSAGE + ". Records Insserted :" + count;
+			String successResponse = Constants.SUCCESS_RESPONSE_MESSAGE + ". Records Insserted :" + rowCount;
 			response.add(new ResponseDto(Constants.SUCCESS_RESPONSE_CODE, successResponse));
 		}
 		return response;
+	}
+	
+	private Boolean sizePresent(String sizeId) {
+		return sizeRepository.findOne(sizeId) == null ? false : true;
 	}
 }
 

@@ -23,6 +23,7 @@ import com.generic.rest.constants.Constants;
 import com.generic.rest.constants.SessionAttributes;
 import com.generic.rest.constants.SessionStoreConstants;
 import com.generic.rest.dto.LoginDto;
+import com.generic.rest.dto.LoginResponseDto;
 import com.generic.rest.dto.ResponseDto;
 
 @Controller
@@ -57,13 +58,16 @@ public class LoginController {
 	 * @return ResponseResource
 	 */
 	@RequestMapping(value="/login", produces=MediaType.APPLICATION_JSON_VALUE, method=RequestMethod.POST)
-	public @ResponseBody ResponseDto login(HttpSession session, @RequestBody LoginDto loginDto) {
+	public @ResponseBody LoginResponseDto login(HttpSession session, @RequestBody LoginDto loginDto) {
 		SessionAttributes sessionAttributes = getSessionStoreHouse(session);									// reading data from session
-		if(userLoggedin(session))
-			return new ResponseDto(Constants.USER_LOGGED_IN_CODE, Constants.USER_LOGGED_IN_MESSAGE);
-		if(isNullAndEmpty(loginDto.getCheckoutType()))
-			return new ResponseDto(Constants.FAILURE_RESPONSE_CODE, Constants.FAILURE_RESPONSE_MESSAGE);
-		
+		if(userLoggedin(session)) {
+			ResponseDto response = new ResponseDto(Constants.USER_LOGGED_IN_CODE, Constants.USER_LOGGED_IN_MESSAGE);
+			return new LoginResponseDto(response, null);
+		}
+		if(isNullAndEmpty(loginDto.getCheckoutType())) {
+			ResponseDto response =  new ResponseDto(Constants.FAILURE_RESPONSE_CODE, Constants.FAILURE_RESPONSE_MESSAGE); 
+			return new LoginResponseDto(response, null);
+		}
 		if(loginDto.getCheckoutType().equals(CheckoutType.GUEST.getValue()) ||
 				 loginDto.getCheckoutType().equals(CheckoutType.FACEBOOK.getValue()) ||
 						loginDto.getCheckoutType().equals(CheckoutType.GPLUS.getValue())) {									// Login as a GUEST
@@ -76,7 +80,8 @@ public class LoginController {
 			sessionAttributes.setLoginDto(loginDto);
 			session.setAttribute(SessionStoreConstants.USER_LOGGED_IN, new Boolean("true"));
 			saveSessionStoreHouse(session, sessionAttributes);													// save data to session
-			return new ResponseDto(Constants.SUCCESS_RESPONSE_CODE, Constants.SUCCESS_RESPONSE_MESSAGE);
+			ResponseDto response = new ResponseDto(Constants.SUCCESS_RESPONSE_CODE, Constants.SUCCESS_RESPONSE_MESSAGE); 
+			return new LoginResponseDto(response, loginDto);
 			
 		} else if(loginDto.getCheckoutType().equals(CheckoutType.LOGIN.getValue())) {							// Login as a USER
 			
@@ -86,12 +91,13 @@ public class LoginController {
 				sessionAttributes.setLoginDto(loginDto);
 				session.setAttribute(SessionStoreConstants.USER_LOGGED_IN, new Boolean("true"));
 				saveSessionStoreHouse(session, sessionAttributes);												// save data to session
-				return new ResponseDto(Constants.SUCCESS_RESPONSE_CODE, Constants.SUCCESS_RESPONSE_MESSAGE);
+				ResponseDto responseDto =  new ResponseDto(Constants.SUCCESS_RESPONSE_CODE, Constants.SUCCESS_RESPONSE_MESSAGE); 
+				return new LoginResponseDto(responseDto, loginDto);
 			}
-			return response;
+			return new LoginResponseDto(response, loginDto);
 			
 		}
-		return new ResponseDto(Constants.FAILURE_RESPONSE_CODE, Constants.FAILURE_RESPONSE_MESSAGE);
+		return new LoginResponseDto(new ResponseDto(Constants.FAILURE_RESPONSE_CODE, Constants.FAILURE_RESPONSE_MESSAGE), null);
 	}
 	
 	

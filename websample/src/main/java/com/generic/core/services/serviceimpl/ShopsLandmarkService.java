@@ -44,17 +44,17 @@ public class ShopsLandmarkService implements ShopsLandmarkServiceI{
 
 			Shops theShop = aShopLandmark.getShopIdLandmarkId().getShops();
 			Landmark theLandmark = aShopLandmark.getShopIdLandmarkId().getLandmark();
-			Area theArea = theLandmark.getArea();
-			City theCity = theArea.getCity();
+			Area theArea = theLandmark.getLandmarkIdAreaId().getArea();
+			City theCity = theArea.getAreaIdCityId().getCity();
 			
 			if(landmarkCache.containsKey(theShop.getShopId())) {		//shops already in cache
 				ShopLandmarkDto aShopLandmarkDto = landmarkCache.get(theShop.getShopId());
-				LandmarkDto aLandmark = new LandmarkDto(theLandmark.getLandmarkId(), theLandmark.getLandmarkName(), theArea.getAreaName());
+				LandmarkDto aLandmark = new LandmarkDto(theLandmark.getLandmarkIdAreaId().getLandmarkId(), theLandmark.getLandmarkName(), theArea.getAreaName());
 				aShopLandmarkDto.getLocations().add(aLandmark);
 			} else {													//first time a shop is been added
 				
 				List<LandmarkDto> landmarkDtoList = new ArrayList<LandmarkDto>();
-				LandmarkDto aLandmark = new LandmarkDto(theLandmark.getLandmarkId(), theLandmark.getLandmarkName(), theArea.getAreaName());
+				LandmarkDto aLandmark = new LandmarkDto(theLandmark.getLandmarkIdAreaId().getLandmarkId(), theLandmark.getLandmarkName(), theArea.getAreaName());
 				landmarkDtoList.add(aLandmark);
 				ShopLandmarkDto aShopLandmarkDto = new ShopLandmarkDto(theShop.getShopName(),landmarkDtoList);
 				landmarkCache.put(theShop.getShopId(), aShopLandmarkDto);

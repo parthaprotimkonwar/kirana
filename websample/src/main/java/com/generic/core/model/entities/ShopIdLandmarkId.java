@@ -34,7 +34,7 @@ public class ShopIdLandmarkId implements Serializable{
 
 	@Override
 	public int hashCode() {
-		String landmarkId = chooseFirstIfNotNull(this.landmark.getLandmarkId(), "");
+		String landmarkId = chooseFirstIfNotNull(this.landmark.getLandmarkIdAreaId().getLandmarkId(), "");
 		String shopId = chooseFirstIfNotNull(this.shops.getShopId() , "");
 		return landmarkId.hashCode() + shopId.hashCode();
 	}
@@ -45,7 +45,7 @@ public class ShopIdLandmarkId implements Serializable{
 			return false;
 		ShopIdLandmarkId shopIdLandmarkId = (ShopIdLandmarkId)that;
 		return this.shops.getShopId().equals(shopIdLandmarkId.getShops().getShopId()) && 
-					this.landmark.getLandmarkId().equals(shopIdLandmarkId.getLandmark().getLandmarkId());
+					this.landmark.getLandmarkIdAreaId().getLandmarkId().equals(shopIdLandmarkId.getLandmark().getLandmarkIdAreaId().getLandmarkId());
 	}
 	
 	public Shops getShops() {
@@ -63,6 +63,5 @@ public class ShopIdLandmarkId implements Serializable{
 	public void setLandmark(Landmark landmark) {
 		this.landmark = landmark;
 	}
-	
 	
 }
