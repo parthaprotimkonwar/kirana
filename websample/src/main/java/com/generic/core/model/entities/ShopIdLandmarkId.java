@@ -4,11 +4,10 @@ import static com.generic.core.utilities.Util.chooseFirstIfNotNull;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
-@Embeddable
 public class ShopIdLandmarkId implements Serializable{
 
 	
@@ -25,13 +24,19 @@ public class ShopIdLandmarkId implements Serializable{
 	}
 	
 	@ManyToOne
+	@JoinColumns(
+		{
+			@JoinColumn(name="AREA_ID", referencedColumnName="AREA_ID"),
+			@JoinColumn(name="CITY_ID", referencedColumnName="CITY_ID"),
+			@JoinColumn(name="LANDMARK_ID", referencedColumnName="LANDMARK_ID")
+		}
+	)
+	private Landmark landmark;
+
+	@ManyToOne
 	@JoinColumn(name="SHOP_ID")
 	private Shops shops;
 	
-	@ManyToOne
-	@JoinColumn(name="LANDMARK_ID")
-	private Landmark landmark;
-
 	@Override
 	public int hashCode() {
 		String landmarkId = chooseFirstIfNotNull(this.landmark.getLandmarkIdAreaId().getLandmarkId(), "");

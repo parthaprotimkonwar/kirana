@@ -7,6 +7,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
 @Embeddable
@@ -21,7 +22,12 @@ public class LandmarkIdAreaId implements Serializable{
 	private String landmarkId;
 	
 	@ManyToOne
-	@JoinColumn(name="AREA_ID")
+	@JoinColumns(
+		{
+			@JoinColumn(name="AREA_ID", referencedColumnName="AREA_ID"),
+			@JoinColumn(name="CITY_ID", referencedColumnName="CITY_ID")
+		}
+	)
 	private Area area;
 
 	public LandmarkIdAreaId() {}

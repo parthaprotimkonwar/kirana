@@ -38,6 +38,8 @@ public class ServicesFactory {
 	private UserInterestsServiceI userInterestsService;
 	@Resource
 	private UsersServiceI userService;
+	@Resource
+	private ShopsLandmarkServiceI shopsLandmarkService;
 	/*@Resource
 	private ShopsLocationsServiceI shopsLocationService;*/
 	@Resource
@@ -65,10 +67,6 @@ public class ServicesFactory {
 	public void setLandmarkService(LandmarkServiceI landmarkService) {
 		this.landmarkService = landmarkService;
 	}
-	@Resource
-	private ShopsLandmarkServiceI shopsLandmarkService;
-	
-	
 	public ShopsLandmarkServiceI getShopsLandmarkService() {
 		return shopsLandmarkService;
 	}

@@ -69,9 +69,6 @@ public class Shops implements Serializable {
 	@OneToMany(mappedBy = "shop")
 	private Set<Transactions> transactions;
 
-	/*@OneToMany(mappedBy = "shopIdLocationId.shops")
-	private Set<ShopsLocations> shopsLocations;*/
-
 	@OneToMany(mappedBy = "shopIdLandmarkId.shops")
 	private Set<ShopsLandmark> shopsLandmark;
 	
@@ -111,14 +108,6 @@ public class Shops implements Serializable {
 	public void setShopId(String shopId) {
 		this.shopId = shopId;
 	}
-
-	/*public Set<ShopsLocations> getShopsLocations() {
-		return shopsLocations;
-	}
-
-	public void setShopsLocations(Set<ShopsLocations> shopsLocations) {
-		this.shopsLocations = shopsLocations;
-	}*/
 
 	public String getShopType() {
 		return shopType;

@@ -31,7 +31,7 @@ public class ShopsLandmarkService implements ShopsLandmarkServiceI{
 	public Map<String, ShopLandmarkDto> findShopsConcadinatedWithLocation(String cityId) {
 
 		City aCity = new City(cityId);
-		List<ShopsLandmark> shopsLandmarks = shopsLandmarkRepository.findByShopIdLandmarkIdLandmarkAreaCity(aCity);
+		List<ShopsLandmark> shopsLandmarks = shopsLandmarkRepository.findByShopIdLandmarkIdLandmarkLandmarkIdAreaIdAreaAreaIdCityIdCity(aCity);
 		return concadenateShopsAreaLandmark(shopsLandmarks);
 	}
 	
