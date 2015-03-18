@@ -32,8 +32,8 @@ public class InitializeCaches implements ApplicationListener<ContextRefreshedEve
 		
 		
 		SizeCache measurableQuantityCache = SizeCache.getInstance();
-		List<Size> size = services.getSizeService().findAllQuantity();
-		measurableQuantityCache.updateCache(size);
+		//List<Size> size = services.getSizeService().findAllQuantity();
+		//measurableQuantityCache.updateCache(size);
 		
 		
 		/*//initialize ShopCache
