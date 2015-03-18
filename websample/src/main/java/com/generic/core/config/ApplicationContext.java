@@ -84,7 +84,6 @@ public class ApplicationContext {
     	dataSource.setJdbcUrl(dbUrl);
     	dataSource.setUsername(username);
     	dataSource.setPassword(password);
-    	
     	return dataSource;
     }
 	
