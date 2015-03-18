@@ -126,7 +126,6 @@ public class LandingController {
 	 */
 	@RequestMapping(value="/permissible/size", produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, String[]> getPermissibleMeasurementQuantities() {
-	
 		SizeCache sizeCache = SizeCache.getInstance();
 		return sizeCache.getSizeQuantity();
 	}
