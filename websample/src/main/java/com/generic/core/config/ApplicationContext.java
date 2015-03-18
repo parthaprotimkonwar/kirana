@@ -78,6 +78,12 @@ public class ApplicationContext {
 	        password = environment.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD);
 	        dbUrl = environment.getRequiredProperty(PROPERTY_NAME_DATABASE_URL);
 		}
+		System.out.println("*********************************");
+		System.out.println("DB URL:"  + System.getenv("DATABASE_URL"));
+		System.out.println("Username:" + username);
+		System.out.println("password:" + password);
+		System.out.println("Url:" + dbUrl);
+		System.out.println("*********************************");
 		
 		BoneCPDataSource dataSource = new BoneCPDataSource();
     	dataSource.setDriverClass(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
