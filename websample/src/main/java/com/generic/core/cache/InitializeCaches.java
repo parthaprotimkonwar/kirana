@@ -30,6 +30,7 @@ public class InitializeCaches implements ApplicationListener<ContextRefreshedEve
 		List<Location> locations = services.getLocationService().findAllLocations();
 		locationCache.updateCache(locations);*/
 		
+		
 		SizeCache measurableQuantityCache = SizeCache.getInstance();
 		List<Size> size = services.getSizeService().findAllQuantity();
 		measurableQuantityCache.updateCache(size);
