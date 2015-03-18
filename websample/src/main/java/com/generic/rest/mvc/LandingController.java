@@ -49,6 +49,7 @@ public class LandingController {
 	 */
 	@RequestMapping(value="shops/location/{cityId}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, ShopLandmarkDto> concatenateShopsLocation(@PathVariable String cityId) {
+		
 		return serviceFactory.getShopsLandmarkService().findShopsConcadinatedWithLocation(cityId);
 	}
 	
