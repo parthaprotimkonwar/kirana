@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.generic.core.cache.SizeCache;
 import com.generic.core.services.serviceimpl.ServicesFactory;
 import com.generic.rest.constants.SessionAttributes;
+import com.generic.rest.constants.SessionStoreConstants;
 import com.generic.rest.dto.CategoryDto;
 import com.generic.rest.dto.CityDto;
 import com.generic.rest.dto.ItemDto;
@@ -112,6 +113,7 @@ public class LandingController {
 	public @ResponseBody Map<CategoryDto, Map<CategoryDto, List<ItemDto>>> getItemsForAShop(@PathVariable String shopId, HttpSession session) {
 		SessionAttributes sessionAttributes = getSessionStoreHouse(session);
 		sessionAttributes.setShopId(shopId);													//setting the shop for the user
+		session.setAttribute(SessionStoreConstants.SHOP_SELECTED, new Boolean("true"));			//checkpoint that shop has been selected
 		saveSessionStoreHouse(session, sessionAttributes);
 		return serviceFactory.getShopsItemsService().findAllItemsForAShop(shopId);
 		

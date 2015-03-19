@@ -94,8 +94,7 @@ public class LoginController {
 				ResponseDto responseDto =  new ResponseDto(Constants.SUCCESS_RESPONSE_CODE, Constants.SUCCESS_RESPONSE_MESSAGE); 
 				return new LoginResponseDto(responseDto, loginDto);
 			}
-			return new LoginResponseDto(response, loginDto);
-			
+			return new LoginResponseDto(response, null);
 		}
 		return new LoginResponseDto(new ResponseDto(Constants.FAILURE_RESPONSE_CODE, Constants.FAILURE_RESPONSE_MESSAGE), null);
 	}

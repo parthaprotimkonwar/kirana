@@ -29,12 +29,16 @@ public class TransactionService implements TransactionServiceI{
 	
 	@Override
 	public String createTransaction(TransactionDto transactionDto, SessionAttributes sessionAttributes) {
+		
+		String txnId = generateTransactionId();
 		Transactions transaction = new Transactions();
 		Date now = new Date();
+		
+		
 		Shops shop = new Shops(sessionAttributes.getShopId());
 		Users user = new Users(sessionAttributes.getUserId());
 		
-		transaction.setTxnId(generateTransactionId());
+		transaction.setTxnId(txnId);
 		transaction.setTxnCreatedTime(now);
 		transaction.setTxnUpdatedTime(now);
 		
@@ -48,9 +52,12 @@ public class TransactionService implements TransactionServiceI{
 		transaction.setItems(sessionAttributes.getItems());
 		transaction.setShop(shop);
 		transaction.setTheUser(user);
+
+		transaction.setCustomerName(transactionDto.getCustomerName());
+		transaction.setPhoneNumber(transactionDto.getPhoneNumber());
 		
-		transactionsRepository.saveAndFlush(transaction);
-		return transaction.getTxnId();
+		transactionsRepository.save(transaction);
+		return txnId;
 	}
 	
 

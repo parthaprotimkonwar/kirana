@@ -3,6 +3,8 @@ package com.generic.rest.dto;
 
 public class TransactionDto {
 
+	private String customerName;
+	private String phoneNumber;
 	private String deliveryAddress;
 	private String paymentMode;
 	private String paymentStatus;
@@ -12,8 +14,9 @@ public class TransactionDto {
 	
 	public TransactionDto() {}
 	
-	TransactionDto(String paymentMode, String paymentStatus, String deliveryStatus) {
+	public TransactionDto(String paymentMode, String paymentStatus, String deliveryStatus) {
 		this.paymentMode = paymentMode;
+		this.paymentStatus = paymentStatus;
 		this.deliveryStatus = deliveryStatus;
 	}
 	
@@ -71,6 +74,22 @@ public class TransactionDto {
 
 	public void setPreferreddeliveryTimeSlot(String preferreddeliveryTimeSlot) {
 		this.preferreddeliveryTimeSlot = preferreddeliveryTimeSlot;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 }

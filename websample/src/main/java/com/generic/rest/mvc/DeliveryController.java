@@ -2,6 +2,8 @@ package com.generic.rest.mvc;
 
 import static com.generic.core.utilities.Util.getSessionStoreHouse;
 import static com.generic.core.utilities.Util.saveSessionStoreHouse;
+import static com.generic.core.utilities.Util.shopSelected;
+import static com.generic.core.utilities.Util.userLoggedin;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -30,6 +32,13 @@ public class DeliveryController {
 	public @ResponseBody ResponseDto proceedForDelivery(@RequestBody TransactionDto transactionDto, HttpSession session) {
 	
 		SessionAttributes sessionAttributes = getSessionStoreHouse(session);
+		if(!userLoggedin(session)) {
+			return new ResponseDto(Constants.USER_NOT_LOGGED_IN_CODE, Constants.USER_NOT_LOGGED_IN_MESSAGE);
+		}
+		if(!shopSelected(session)) {
+			return new ResponseDto(Constants.SHOP_NOT_SELECTED_CODE, Constants.SHOP_NOT_SELECTED_MESSAGE);
+		}
+		
 		String txnId = serviceFactory.getTransactionService().createTransaction(transactionDto, sessionAttributes);
 		sessionAttributes.setTransactionDto(transactionDto);
 		sessionAttributes.setTxnId(txnId);

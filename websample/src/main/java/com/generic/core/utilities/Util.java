@@ -110,6 +110,12 @@ public class Util {
 		return true;
 	}
 	
+	public static Boolean shopSelected(HttpSession session) {
+		if(session.getAttribute(SessionStoreConstants.SHOP_SELECTED) == null ||
+				Boolean.valueOf((boolean) session.getAttribute(SessionStoreConstants.SHOP_SELECTED)) == false)
+			return false;
+		return true;
+	}
 	
 	public static SessionAttributes getSessionStoreHouse(HttpSession session) {
 			return session.getAttribute(Constants.SESSION_STOREHOUSE) == null ?

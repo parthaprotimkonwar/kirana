@@ -48,4 +48,7 @@ public interface Constants {
 	
 	String LOCATION_ID_NULL_DATA_CODE = "110";
 	String LOCATION_ID_NULL_DATA_MESSAGE = "Location Id is not present in the Excel Sheet Name";
+	
+	String SHOP_NOT_SELECTED_CODE = "111";
+	String SHOP_NOT_SELECTED_MESSAGE = "Shop Not Selected";
 }

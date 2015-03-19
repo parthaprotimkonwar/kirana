@@ -26,6 +26,12 @@ public class Transactions implements Serializable{
 	@Id
 	@Column(name="TXN_ID", length=20)
 	private String txnId;
+
+	@Column(name="CUST_NAME", length=30)
+	private String customerName;
+	
+	@Column(name="CUST_PHONE_NUMER", length=15)
+	private String phoneNumber;
 	
 	@Column(name="TXN_CREATED_TIME", length=20)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -174,5 +180,21 @@ public class Transactions implements Serializable{
 	public void setTheUser(Users theUser) {
 		if(theUser != null)
 			this.theUser = theUser;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 }
