@@ -7,12 +7,15 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.generic.core.model.entities.ShopIdLandmarkId;
 import com.generic.core.model.entities.Shops;
 import com.generic.core.onboarding.exceldto.ExcelSheetObject;
 import com.generic.core.onboarding.exceldto.ExcelShopsDto;
+import com.generic.core.respository.LandmarkRepository;
 import com.generic.core.respository.ShopsRepository;
 import com.generic.core.services.service.ShopsServiceI;
 import com.generic.core.utilities.Util;
+import com.generic.core.utilities.UtilConstants;
 import com.generic.rest.constants.Constants;
 import com.generic.rest.dto.ResponseDto;
 
@@ -21,6 +24,9 @@ public class ShopsService implements ShopsServiceI{
 
 	@Resource
 	ShopsRepository shopsRepository;
+	
+	@Resource
+	LandmarkRepository landmarkRepository;
 	
 	@Override
 	public List<Shops> findAllShops() {
@@ -31,6 +37,8 @@ public class ShopsService implements ShopsServiceI{
 	public List<ResponseDto> onboardShops(ExcelSheetObject excelSheetObject) {
 
 		List<String> shopInsertedIds = new ArrayList<String>();
+		List<ShopIdLandmarkId> shopLandmarkId = new ArrayList<ShopIdLandmarkId>();
+		
 		List<ResponseDto> response = new ArrayList<ResponseDto>();
 		int rowCount = 0;
 		
@@ -38,6 +46,7 @@ public class ShopsService implements ShopsServiceI{
 			rowCount++;
 			ExcelShopsDto aSheetRow = (ExcelShopsDto)anShopObject;
 			Shops aShop = new Shops(aSheetRow.getShopId(), aSheetRow.getShopName(), aSheetRow.getShopAddress(), aSheetRow.getShopType(), aSheetRow.getEmail(), aSheetRow.getPhoneNumber(), aSheetRow.getOwnerName(), aSheetRow.getTags());
+			String[] locations = splitLandmarks(aSheetRow.getLandmarksForDelivery());
 			try {
 				if(shopsPresent(aShop.getShopId()) || shopInsertedIds.contains(aShop.getShopId())) {
 					String errorContent = "ShopId " + Constants.DATABASE_ERROR_KEY_PRESENT;
@@ -51,6 +60,8 @@ public class ShopsService implements ShopsServiceI{
 				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_WARNING, e.getMessage());
 				response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
 			}
+			
+			
 		}
 
 		if(!response.isEmpty()) {
@@ -62,6 +73,13 @@ public class ShopsService implements ShopsServiceI{
 			response.add(new ResponseDto(Constants.SUCCESS_RESPONSE_CODE, successResponse));
 		}
 		return response;
+	}
+
+	/*private Boolean landmarkmarkAvailable(String landmarkId) {
+		
+	}*/
+	private String[] splitLandmarks(String landmarks) {
+		return landmarks.split(UtilConstants.DELIMETER_BAR);
 	}
 	
 	private Boolean shopsPresent(String shopId) {

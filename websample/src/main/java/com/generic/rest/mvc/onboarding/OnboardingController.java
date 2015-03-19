@@ -1,4 +1,4 @@
-package com.generic.rest.mvc;
+package com.generic.rest.mvc.onboarding;
 
 import java.io.IOException;
 import java.util.List;
