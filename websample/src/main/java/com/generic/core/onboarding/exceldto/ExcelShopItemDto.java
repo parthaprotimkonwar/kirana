@@ -41,6 +41,11 @@ public class ExcelShopItemDto implements Excel{
 		return new ExcelShopItemDto(itemId.toString(), sizeId.toString(), price.toString(), discount.toString(), status.toString(), shopId.toString());
 	}
 	
+	@Override
+	public String toString() {
+		return "itemId :" + itemId + "| sizeId :" + sizeId + "| price :" + price + " | discount :" + discount + "status : " + status + "| shopId :" + shopId; 
+	}
+	
 	public String getItemId() {
 		return itemId;
 	}

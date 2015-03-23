@@ -38,7 +38,7 @@ public class City implements Serializable{
 	@Column(name="CITY_NAME", length=30)
 	private String cityName;
 
-	@OneToMany(mappedBy="areaIdCityId.city")
+	@OneToMany(mappedBy="city")
 	private Set<Area> area;
 	
 	public Set<Area> getArea() {

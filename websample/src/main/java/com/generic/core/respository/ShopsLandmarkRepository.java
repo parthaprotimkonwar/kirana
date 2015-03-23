@@ -10,6 +10,6 @@ import com.generic.core.model.entities.ShopsLandmark;
 
 public interface ShopsLandmarkRepository extends JpaRepository<ShopsLandmark, ShopIdLandmarkId>{
 
-	//List<ShopsLandmark> findByShopIdLandmarkIdLandmarkAreaCity(City city);
-	List<ShopsLandmark> findByShopIdLandmarkIdLandmarkLandmarkIdAreaIdAreaAreaIdCityIdCity(City city);
+	List<ShopsLandmark> findByShopIdLandmarkIdLandmarkAreaCity(City city);
+	//List<ShopsLandmark> findByShopIdLandmarkIdLandmarkLandmarkIdAreaIdAreaAreaIdCityIdCity(City city);
 }

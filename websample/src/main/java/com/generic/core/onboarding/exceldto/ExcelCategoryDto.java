@@ -33,6 +33,11 @@ public class ExcelCategoryDto implements Excel {
 		
 		return new ExcelCategoryDto(categoryId.toString(), categoryName.toString(), parentCategory.toString());
 	}
+	
+	@Override
+	public String toString() {
+		return "CategoryId: " + categoryId + "| CategoryName: " + categoryName + "| parentCategory : " + parentCategory;
+	}
 
 	public String getCategoryId() {
 		return categoryId;

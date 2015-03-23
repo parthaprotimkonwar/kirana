@@ -16,4 +16,6 @@ public interface SizeServiceI {
 	 * @return
 	 */
 	public List<ResponseDto> onboardSize(ExcelSheetObject excelSheetObject);
+	
+	Boolean sizeExist(String sizeId);
 }

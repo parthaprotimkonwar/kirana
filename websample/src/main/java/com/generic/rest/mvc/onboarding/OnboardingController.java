@@ -108,6 +108,41 @@ public class OnboardingController {
 		return response;
 	}
 	
+	@RequestMapping(value="category", method=RequestMethod.POST)
+	public @ResponseBody List<ResponseDto> onboardCategory(@RequestBody String excelSheetUrlLocation) {
+		
+		List<Object> shopItemExcelSheetRows = null;
+		List<ResponseDto> response = null;
+		ExcelSheetObject excelSheetObject = null;
+		try {
+			excelSheetObject = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelCategoryDto.class, true);
+			shopItemExcelSheetRows = excelSheetObject.getRows();
+			response = ExcelUtilities.validate(ExcelUtilities.class, shopItemExcelSheetRows, ValidationRules.categoryRules);
+		} catch (InstantiationException | IllegalAccessException | IOException e) {
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	/**
+	 * Push categories into Database
+	 * @param excelSheetUrlLocation
+	 * @return
+	 */
+	@RequestMapping(value="category/push", method=RequestMethod.POST)
+	public @ResponseBody List<ResponseDto> pushCategory(@RequestBody String excelSheetUrlLocation) {
+		
+		List<ResponseDto> response = null;
+		ExcelSheetObject excelSheetObject = null;
+		try {
+			excelSheetObject = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelCategoryDto.class, true);
+			response = serviceFactory.getCategoriesService().onboardCategories(excelSheetObject);
+		} catch (InstantiationException | IllegalAccessException | IOException e) {
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
 	/**
 	 * Method to validate Items in the Item Onboarding sheet
 	 * @param excelSheetUrlLocation
@@ -137,36 +172,6 @@ public class OnboardingController {
 		try {
 			excelSheetObject = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelItemsDto.class, true);
 			response = serviceFactory.getItemService().onboardItems(excelSheetObject);
-		} catch (InstantiationException | IllegalAccessException | IOException e) {
-			e.printStackTrace();
-		}
-		return response;
-	}
-	
-	@RequestMapping(value="shopitems", method=RequestMethod.POST)
-	public @ResponseBody List<ResponseDto> onboardShopItems(@RequestBody String excelSheetUrlLocation) {
-		
-		List<Object> shopItemExcelSheetRows = null;
-		List<ResponseDto> response = null;
-		ExcelSheetObject excelSheetObject = null;
-		try {
-			excelSheetObject = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelShopItemDto.class, true);
-			shopItemExcelSheetRows = excelSheetObject.getRows();
-			response = ExcelUtilities.validate(ExcelUtilities.class, shopItemExcelSheetRows, ValidationRules.shopItemRules);
-		} catch (InstantiationException | IllegalAccessException | IOException e) {
-			e.printStackTrace();
-		}
-		return response;
-	}
-	
-	@RequestMapping(value="shopitems/push", method=RequestMethod.POST)
-	public @ResponseBody List<ResponseDto> pushShopItems(@RequestBody String excelSheetUrlLocation) {
-		
-		List<ResponseDto> response = null;
-		ExcelSheetObject excelSheetObject = null;
-		try {
-			excelSheetObject = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelShopItemDto.class, true);
-			response = serviceFactory.getShopsItemsService().onboardShopItems(excelSheetObject);
 		} catch (InstantiationException | IllegalAccessException | IOException e) {
 			e.printStackTrace();
 		}
@@ -203,30 +208,30 @@ public class OnboardingController {
 		return response;
 	}
 	
-	@RequestMapping(value="category", method=RequestMethod.POST)
-	public @ResponseBody List<ResponseDto> onboardCategory(@RequestBody String excelSheetUrlLocation) {
+	@RequestMapping(value="shopitems", method=RequestMethod.POST)
+	public @ResponseBody List<ResponseDto> onboardShopItems(@RequestBody String excelSheetUrlLocation) {
 		
 		List<Object> shopItemExcelSheetRows = null;
 		List<ResponseDto> response = null;
 		ExcelSheetObject excelSheetObject = null;
 		try {
-			excelSheetObject = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelCategoryDto.class, true);
+			excelSheetObject = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelShopItemDto.class, true);
 			shopItemExcelSheetRows = excelSheetObject.getRows();
-			response = ExcelUtilities.validate(ExcelUtilities.class, shopItemExcelSheetRows, ValidationRules.categoryRules);
+			response = ExcelUtilities.validate(ExcelUtilities.class, shopItemExcelSheetRows, ValidationRules.shopItemRules);
 		} catch (InstantiationException | IllegalAccessException | IOException e) {
 			e.printStackTrace();
 		}
 		return response;
 	}
 	
-	@RequestMapping(value="category/push", method=RequestMethod.POST)
-	public @ResponseBody List<ResponseDto> pushCategory(@RequestBody String excelSheetUrlLocation) {
+	@RequestMapping(value="shopitems/push", method=RequestMethod.POST)
+	public @ResponseBody List<ResponseDto> pushShopItems(@RequestBody String excelSheetUrlLocation) {
 		
 		List<ResponseDto> response = null;
 		ExcelSheetObject excelSheetObject = null;
 		try {
-			excelSheetObject = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelCategoryDto.class, true);
-			response = serviceFactory.getCategoriesService().onboardCategories(excelSheetObject);
+			excelSheetObject = ExcelUtilities.readExcelSheet(excelSheetUrlLocation, ExcelShopItemDto.class, true);
+			response = serviceFactory.getShopsItemsService().onboardShopItems(excelSheetObject);
 		} catch (InstantiationException | IllegalAccessException | IOException e) {
 			e.printStackTrace();
 		}

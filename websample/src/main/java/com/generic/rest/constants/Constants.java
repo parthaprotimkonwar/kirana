@@ -44,6 +44,7 @@ public interface Constants {
 	
 	String DATABASE_ERROR = "109";
 	String DATABASE_ERROR_KEY_PRESENT = "Key already present"; 
+	String DATABASE_ERROR_KEY_NOT_PRESENT = "Key not present"; 
 	//onboarding sheet error
 	
 	String LOCATION_ID_NULL_DATA_CODE = "110";
@@ -51,4 +52,5 @@ public interface Constants {
 	
 	String SHOP_NOT_SELECTED_CODE = "111";
 	String SHOP_NOT_SELECTED_MESSAGE = "Shop Not Selected";
+	
 }

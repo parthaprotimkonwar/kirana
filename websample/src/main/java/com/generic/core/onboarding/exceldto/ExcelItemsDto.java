@@ -18,8 +18,8 @@ public class ExcelItemsDto implements Excel{
 	public ExcelItemsDto() {}
 	
 	public ExcelItemsDto(String itemId, String brand, String description, String imageName, String itemName, String categoryId) {
-		this.itemId = itemName;
-		this.brand = description;
+		this.itemId = itemId;
+		this.brand = brand;
 		this.description = description;
 		this.imageName = imageName;
 		this.itemName = itemName;

@@ -44,12 +44,12 @@ public class SizeService implements SizeServiceI{
 			Size aSize = new Size(aSheetRow.getQuantityId(), aSheetRow.getQuantityName(), aSheetRow.getUnit(), aSheetRow.getPermissibleValues());
 			try {
 				if(sizePresent(aSize.getSizeId()) || sizeInsertedIds.contains(aSize.getSizeId())) {
-					String errorContent = "ShopId " + Constants.DATABASE_ERROR_KEY_PRESENT;
+					String errorContent = "SizeId :" + aSize.getSizeId() + " "  + Constants.DATABASE_ERROR_KEY_PRESENT;
 					String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, errorContent);
 					response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
 					continue;
 				}
-				sizeRepository.save(aSize);
+				sizeRepository.saveAndFlush(aSize);
 				sizeInsertedIds.add(aSize.getSizeId());
 			} catch (Exception e) {
 				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_WARNING, e.getMessage());
@@ -70,6 +70,12 @@ public class SizeService implements SizeServiceI{
 	
 	private Boolean sizePresent(String sizeId) {
 		return sizeRepository.findOne(sizeId) == null ? false : true;
+	}
+
+
+	@Override
+	public Boolean sizeExist(String sizeId) {
+		return sizeRepository.exists(sizeId);
 	}
 }
 

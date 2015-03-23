@@ -5,7 +5,6 @@ import static com.generic.core.utilities.Util.chooseFirstIfNotNull;
 import java.io.Serializable;
 
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
 public class ShopIdLandmarkId implements Serializable{
@@ -24,13 +23,7 @@ public class ShopIdLandmarkId implements Serializable{
 	}
 	
 	@ManyToOne
-	@JoinColumns(
-		{
-			@JoinColumn(name="AREA_ID", referencedColumnName="AREA_ID"),
-			@JoinColumn(name="CITY_ID", referencedColumnName="CITY_ID"),
-			@JoinColumn(name="LANDMARK_ID", referencedColumnName="LANDMARK_ID")
-		}
-	)
+	@JoinColumn(name="LANDMARK_ID", referencedColumnName="LANDMARK_ID")
 	private Landmark landmark;
 
 	@ManyToOne
@@ -39,7 +32,7 @@ public class ShopIdLandmarkId implements Serializable{
 	
 	@Override
 	public int hashCode() {
-		String landmarkId = chooseFirstIfNotNull(this.landmark.getLandmarkIdAreaId().getLandmarkId(), "");
+		String landmarkId = chooseFirstIfNotNull(this.landmark.getLandmarkId(), "");
 		String shopId = chooseFirstIfNotNull(this.shops.getShopId() , "");
 		return landmarkId.hashCode() + shopId.hashCode();
 	}
@@ -50,7 +43,7 @@ public class ShopIdLandmarkId implements Serializable{
 			return false;
 		ShopIdLandmarkId shopIdLandmarkId = (ShopIdLandmarkId)that;
 		return this.shops.getShopId().equals(shopIdLandmarkId.getShops().getShopId()) && 
-					this.landmark.getLandmarkIdAreaId().getLandmarkId().equals(shopIdLandmarkId.getLandmark().getLandmarkIdAreaId().getLandmarkId());
+					this.landmark.getLandmarkId().equals(shopIdLandmarkId.getLandmark().getLandmarkId());
 	}
 	
 	public Shops getShops() {

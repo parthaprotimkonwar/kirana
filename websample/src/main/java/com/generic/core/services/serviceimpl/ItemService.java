@@ -12,6 +12,7 @@ import com.generic.core.model.entities.Items;
 import com.generic.core.onboarding.exceldto.ExcelItemsDto;
 import com.generic.core.onboarding.exceldto.ExcelSheetObject;
 import com.generic.core.respository.ItemsRepository;
+import com.generic.core.services.service.CategoriesServiceI;
 import com.generic.core.services.service.ItemServiceI;
 import com.generic.core.utilities.Util;
 import com.generic.rest.constants.Constants;
@@ -22,6 +23,9 @@ public class ItemService implements ItemServiceI {
 
 	@Resource
 	ItemsRepository itemRepository;
+	
+	@Resource
+	CategoriesServiceI cateforyService;
 	
 	@Override
 	public List<Items> findAllItems() {
@@ -40,6 +44,13 @@ public class ItemService implements ItemServiceI {
 			rowCount++;
 			ExcelItemsDto aSheetRow = (ExcelItemsDto)anItemObject;
 			Categories aCategory = new Categories(aSheetRow.getCategoryId());
+			if(!cateforyService.categoryExist(aCategory.getCategoryId())) {
+				String errorContent = "CategoryId :" + aCategory.getCategoryId() + " " +  Constants.DATABASE_ERROR_KEY_NOT_PRESENT;
+				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, errorContent);
+				response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
+				continue;
+			}
+			
 			Items anItem = new Items(aSheetRow.getItemId(), aSheetRow.getItemName(), aSheetRow.getImageName(), aSheetRow.getDescription(), aSheetRow.getBrand(), aCategory);
 			try {
 				if(itemPresent(anItem.getItemId()) || itemInsertedIds.contains(anItem.getItemId())) {
@@ -69,6 +80,11 @@ public class ItemService implements ItemServiceI {
 
 	private Boolean itemPresent(String itemId) {
 		return itemRepository.findOne(itemId) == null ? false : true;
+	}
+
+	@Override
+	public Boolean itemExist(String itemId) {
+		return itemRepository.exists(itemId);
 	}
 	
 }

@@ -14,4 +14,18 @@ public interface ShopsServiceI {
 	
 	public List<ResponseDto> onboardShops(ExcelSheetObject excelSheetObject);
 	
+	/**
+	 * Checks if a Shop is present or not
+	 * @param shopId
+	 * @return
+	 */
+	Boolean shopsPresent(String shopId);
+	
+	/**
+	 * Delete a Shop
+	 * @param shopId
+	 * @return
+	 */
+	void deleteShops(String shopId);
+	
 }

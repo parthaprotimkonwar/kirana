@@ -12,4 +12,6 @@ public interface ItemServiceI {
 	
 	public List<ResponseDto> onboardItems(ExcelSheetObject excelSheetObject);
 	
+	Boolean itemExist(String itemId);
+	
 }

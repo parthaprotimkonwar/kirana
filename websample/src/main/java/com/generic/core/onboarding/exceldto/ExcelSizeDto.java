@@ -35,6 +35,11 @@ public class ExcelSizeDto implements Excel {
 		return new ExcelSizeDto(quantityId.toString(), quantityName.toString(), permissibleValues.toString(), unit.toString());
 	}
 
+	@Override
+	public String toString() {
+		return "QuantityId : " + quantityId + " |QuantityName :" + quantityName + " | PermissibleValues :" + permissibleValues + " | unit : " + unit;
+	}
+	
 	public String getQuantityId() {
 		return quantityId;
 	}

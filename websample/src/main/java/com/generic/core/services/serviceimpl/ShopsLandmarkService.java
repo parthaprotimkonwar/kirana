@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.generic.core.model.entities.Area;
 import com.generic.core.model.entities.City;
 import com.generic.core.model.entities.Landmark;
+import com.generic.core.model.entities.ShopIdLandmarkId;
 import com.generic.core.model.entities.Shops;
 import com.generic.core.model.entities.ShopsLandmark;
 import com.generic.core.respository.ShopsLandmarkRepository;
@@ -31,7 +32,7 @@ public class ShopsLandmarkService implements ShopsLandmarkServiceI{
 	public Map<String, ShopLandmarkDto> findShopsConcadinatedWithLocation(String cityId) {
 
 		City aCity = new City(cityId);
-		List<ShopsLandmark> shopsLandmarks = shopsLandmarkRepository.findByShopIdLandmarkIdLandmarkLandmarkIdAreaIdAreaAreaIdCityIdCity(aCity);
+		List<ShopsLandmark> shopsLandmarks = shopsLandmarkRepository.findByShopIdLandmarkIdLandmarkAreaCity(aCity);
 		return concadenateShopsAreaLandmark(shopsLandmarks);
 	}
 	
@@ -44,17 +45,17 @@ public class ShopsLandmarkService implements ShopsLandmarkServiceI{
 
 			Shops theShop = aShopLandmark.getShopIdLandmarkId().getShops();
 			Landmark theLandmark = aShopLandmark.getShopIdLandmarkId().getLandmark();
-			Area theArea = theLandmark.getLandmarkIdAreaId().getArea();
-			City theCity = theArea.getAreaIdCityId().getCity();
+			Area theArea = theLandmark.getArea();
+			City theCity = theArea.getCity();
 			
 			if(landmarkCache.containsKey(theShop.getShopId())) {		//shops already in cache
 				ShopLandmarkDto aShopLandmarkDto = landmarkCache.get(theShop.getShopId());
-				LandmarkDto aLandmark = new LandmarkDto(theLandmark.getLandmarkIdAreaId().getLandmarkId(), theLandmark.getLandmarkName(), theArea.getAreaName());
+				LandmarkDto aLandmark = new LandmarkDto(theLandmark.getLandmarkId(), theLandmark.getLandmarkName(), theArea.getAreaName());
 				aShopLandmarkDto.getLocations().add(aLandmark);
 			} else {													//first time a shop is been added
 				
 				List<LandmarkDto> landmarkDtoList = new ArrayList<LandmarkDto>();
-				LandmarkDto aLandmark = new LandmarkDto(theLandmark.getLandmarkIdAreaId().getLandmarkId(), theLandmark.getLandmarkName(), theArea.getAreaName());
+				LandmarkDto aLandmark = new LandmarkDto(theLandmark.getLandmarkId(), theLandmark.getLandmarkName(), theArea.getAreaName());
 				landmarkDtoList.add(aLandmark);
 				ShopLandmarkDto aShopLandmarkDto = new ShopLandmarkDto(theShop.getShopName(),landmarkDtoList);
 				landmarkCache.put(theShop.getShopId(), aShopLandmarkDto);
@@ -62,6 +63,50 @@ public class ShopsLandmarkService implements ShopsLandmarkServiceI{
 		}
 		return landmarkCache;
 	}
+
 	
+	@Override
+	public ShopsLandmark saveFlushShopsLandmark(ShopsLandmark aShopLandmark) {
+		return shopsLandmarkRepository.saveAndFlush(aShopLandmark);
+	}
+
+	@Override
+	public ShopsLandmark saveShopsLandmark(ShopsLandmark aShopLandmark) {
+		return shopsLandmarkRepository.save(aShopLandmark);
+	}
+
+	@Override
+	public ShopsLandmark saveFlushShopsLandmark(Shops shop, Landmark landmark) {
+		ShopIdLandmarkId shopIdLandmarkId = new ShopIdLandmarkId(shop, landmark);
+		ShopsLandmark aShopLandmark = new ShopsLandmark(shopIdLandmarkId);
+		return shopsLandmarkRepository.saveAndFlush(aShopLandmark);
+	}
+	
+	@Override
+	public ShopsLandmark saveShopsLandmark(Shops shop, Landmark landmark) {
+		ShopIdLandmarkId shopIdLandmarkId = new ShopIdLandmarkId(shop, landmark);
+		ShopsLandmark aShopLandmark = new ShopsLandmark(shopIdLandmarkId);
+		return shopsLandmarkRepository.save(aShopLandmark);
+	}
+	
+	@Override
+	public Boolean shopsLandmarkExist(Shops shop, Landmark landmark) {
+
+		ShopIdLandmarkId shopIdLandmarkId = new ShopIdLandmarkId(shop, landmark);
+		return shopsLandmarkRepository.exists(shopIdLandmarkId);
+	}
+
+	@Override
+	public void deleteShopsLandmark(ShopsLandmark aShopLandmark) {
+		shopsLandmarkRepository.delete(aShopLandmark);;
+	}
+
+
+	@Override
+	public void deleteShopsLandmark(ShopIdLandmarkId shopIdLandmarkId) {
+		shopsLandmarkRepository.delete(shopIdLandmarkId);
+	}
+
+
 	
 }

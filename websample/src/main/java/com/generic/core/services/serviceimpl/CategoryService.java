@@ -39,7 +39,10 @@ public class CategoryService implements CategoriesServiceI{
 		for(Object anCategoryObject : excelSheetObject.getRows()) {
 			rowCount++;
 			ExcelCategoryDto aSheetRow = (ExcelCategoryDto)anCategoryObject;
-			Categories parentCategory = new Categories(aSheetRow.getParentCategory());
+			Categories parentCategory = null;
+			if(aSheetRow.getParentCategory() != null && aSheetRow.getParentCategory().trim().length() != 0) {
+				parentCategory = new Categories(aSheetRow.getParentCategory());
+			}
 			Categories aCategory = new Categories(aSheetRow.getCategoryId(), aSheetRow.getCategoryName(),parentCategory);
 			try {
 				if(categoryPresent(aCategory.getCategoryId()) || categoryInsertedIds.contains(aCategory.getCategoryId())) {
@@ -48,17 +51,25 @@ public class CategoryService implements CategoriesServiceI{
 					response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
 					continue;
 				}
-				categoryRepository.save(aCategory);
+				if(parentCategory != null) {
+					if(!categoryPresent(parentCategory.getCategoryId())) {
+						String errorContent = "ParentCategoryId :" + parentCategory.getCategoryId() + Constants.DATABASE_ERROR_KEY_NOT_PRESENT;
+						String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, errorContent);
+						response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
+						continue;
+					}
+				}
+				categoryRepository.saveAndFlush(aCategory);
 				categoryInsertedIds.add(aCategory.getCategoryId());
 			} catch (Exception e) {
-				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_WARNING, e.getMessage());
+				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, e.getMessage());
 				response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
 			}
 		}
 
 		if(!response.isEmpty()) {
-			for(String aCategoryInsertedId : categoryInsertedIds) {
-				categoryRepository.delete(aCategoryInsertedId);
+			for(int i = categoryInsertedIds.size() -1 ; i>=0; i--) {
+				categoryRepository.delete(categoryInsertedIds.get(i));
 			}
 		} else {			// no error send success message
 			String successResponse = Constants.SUCCESS_RESPONSE_MESSAGE + ". Records Insserted :" + rowCount;
@@ -68,7 +79,27 @@ public class CategoryService implements CategoriesServiceI{
 	}
 
 	Boolean categoryPresent(String categoryId) {
-		return categoryRepository.findOne(categoryId) == null ? false : true;
+		return categoryRepository.exists(categoryId);
 	}
 	
+	
+	
+	public static void main(String[] args) {
+		
+		List<String> aList = new ArrayList<String>();
+		aList.add("first");
+		aList.add("second");
+		aList.add("third");
+		aList.add("fourth");
+		
+		for(int i=aList.size()-1; i>0 ; i--) {
+			System.out.println(aList.get(i));
+		}
+	}
+
+
+	@Override
+	public Boolean categoryExist(String categoryId) {
+		return categoryRepository.exists(categoryId);
+	}
 }

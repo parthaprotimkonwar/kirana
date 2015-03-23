@@ -7,12 +7,15 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.generic.core.model.entities.Landmark;
 import com.generic.core.model.entities.ShopIdLandmarkId;
 import com.generic.core.model.entities.Shops;
+import com.generic.core.model.entities.ShopsLandmark;
 import com.generic.core.onboarding.exceldto.ExcelSheetObject;
 import com.generic.core.onboarding.exceldto.ExcelShopsDto;
-import com.generic.core.respository.LandmarkRepository;
 import com.generic.core.respository.ShopsRepository;
+import com.generic.core.services.service.LandmarkServiceI;
+import com.generic.core.services.service.ShopsLandmarkServiceI;
 import com.generic.core.services.service.ShopsServiceI;
 import com.generic.core.utilities.Util;
 import com.generic.core.utilities.UtilConstants;
@@ -26,7 +29,10 @@ public class ShopsService implements ShopsServiceI{
 	ShopsRepository shopsRepository;
 	
 	@Resource
-	LandmarkRepository landmarkRepository;
+	LandmarkServiceI landmarkService;
+	
+	@Resource
+	ShopsLandmarkServiceI shopsLandmarkService;
 	
 	@Override
 	public List<Shops> findAllShops() {
@@ -46,7 +52,8 @@ public class ShopsService implements ShopsServiceI{
 			rowCount++;
 			ExcelShopsDto aSheetRow = (ExcelShopsDto)anShopObject;
 			Shops aShop = new Shops(aSheetRow.getShopId(), aSheetRow.getShopName(), aSheetRow.getShopAddress(), aSheetRow.getShopType(), aSheetRow.getEmail(), aSheetRow.getPhoneNumber(), aSheetRow.getOwnerName(), aSheetRow.getTags());
-			String[] locations = splitLandmarks(aSheetRow.getLandmarksForDelivery());
+			String[] landmarks = splitLandmarks(aSheetRow.getLandmarksForDelivery());
+			//insert shops if not present
 			try {
 				if(shopsPresent(aShop.getShopId()) || shopInsertedIds.contains(aShop.getShopId())) {
 					String errorContent = "ShopId " + Constants.DATABASE_ERROR_KEY_PRESENT;
@@ -59,12 +66,46 @@ public class ShopsService implements ShopsServiceI{
 			} catch (Exception e) {
 				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_WARNING, e.getMessage());
 				response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
+				continue;	//since there is an error in shop creation no need to insert location.
 			}
+			//associate the shop to all the locations. 
+			//provided the location is already onboarded in the system
+			// this can be done only once the shops are onboarded. So its placed here, after shop registration.
 			
-			
+			try{
+				for(String landmarkId : landmarks) {
+					
+					Landmark aLandmark = new Landmark(landmarkId);		//create a landmark object
+					
+					if(!landmarkService.landmarkPresent(landmarkId)) {
+						String errorContent = "LandmarkId :" + landmarkId + " " + Constants.DATABASE_ERROR_KEY_NOT_PRESENT;
+						String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, errorContent);
+						response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
+						continue;
+					}
+					if(shopsLandmarkService.shopsLandmarkExist(aShop, aLandmark)) {
+						String errorContent = "ShopId :" + aShop.getShopId() + ", LandmarkId :" + aLandmark.getLandmarkId() + " " + Constants.DATABASE_ERROR_KEY_PRESENT;
+						String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, errorContent);
+						response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
+						continue;
+					}
+					//insert into shop landmark table
+					ShopIdLandmarkId aShopIdlandmarkId = new ShopIdLandmarkId(aShop, aLandmark);
+					ShopsLandmark shopLandmark = new ShopsLandmark(aShopIdlandmarkId);
+					shopsLandmarkService.saveFlushShopsLandmark(shopLandmark);
+					shopLandmarkId.add(aShopIdlandmarkId);
+				}
+			} catch(Exception e) {
+				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, e.getCause().getMessage());
+				response.add(new ResponseDto(Constants.DATABASE_ERROR, errorResponse));
+			}
 		}
 
 		if(!response.isEmpty()) {
+			
+			for(ShopIdLandmarkId aShopIdLandmarkId : shopLandmarkId) {
+				shopsLandmarkService.deleteShopsLandmark(aShopIdLandmarkId);
+			}
 			for(String aShopInsertedId : shopInsertedIds) {
 				shopsRepository.delete(aShopInsertedId);
 			}
@@ -82,7 +123,14 @@ public class ShopsService implements ShopsServiceI{
 		return landmarks.split(UtilConstants.DELIMETER_BAR);
 	}
 	
-	private Boolean shopsPresent(String shopId) {
-		return shopsRepository.findOne(shopId) == null ? false : true;
+	@Override
+	public Boolean shopsPresent(String shopId) {
+		return shopsRepository.exists(shopId);
 	}
+
+	@Override
+	public void deleteShops(String shopId) {
+		shopsRepository.delete(shopId);;
+	}
+	
 }

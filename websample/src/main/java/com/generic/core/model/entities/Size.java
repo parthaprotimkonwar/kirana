@@ -1,5 +1,7 @@
 package com.generic.core.model.entities;
 
+import static com.generic.core.utilities.Util.chooseFirstIfNotNull;
+
 import java.io.Serializable;
 import java.util.Set;
 
@@ -45,6 +47,25 @@ public class Size implements Serializable {
 	@OneToMany(mappedBy="size")
 	private Set<ShopsItems> shopsItems;
 
+	@Override
+	public int hashCode() {
+		String sizeId = chooseFirstIfNotNull(this.sizeId, "");
+		return sizeId.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object that) {
+		if(that == null || this.getClass() != that.getClass())
+			return false;
+		Size size = (Size)that;
+		return this.sizeId.equals(size.getSizeId());
+	}
+	
+	@Override
+	public String toString() {
+		return "SizeId :" + sizeId + "| SizeName :" + sizeName + "| Unit :" + unit + "| Permissible Values :" + permissibleValues;
+	}
+	
 	public String getSizeId() {
 		return sizeId;
 	}

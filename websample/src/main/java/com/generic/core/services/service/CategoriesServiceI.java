@@ -17,4 +17,6 @@ public interface CategoriesServiceI {
 	 */
 	List<ResponseDto> onboardCategories(ExcelSheetObject excelSheetObject);
 	
+	Boolean categoryExist(String categoryId);
+	
 }

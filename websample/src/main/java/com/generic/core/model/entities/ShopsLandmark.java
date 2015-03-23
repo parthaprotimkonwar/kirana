@@ -16,6 +16,13 @@ public class ShopsLandmark implements Serializable{
 	@EmbeddedId
 	private ShopIdLandmarkId shopIdLandmarkId;
 
+	public ShopsLandmark() {
+	}
+	
+	public ShopsLandmark(ShopIdLandmarkId shopIdLandmarkId) {
+		this.shopIdLandmarkId = shopIdLandmarkId;
+	}
+	
 	public ShopIdLandmarkId getShopIdLandmarkId() {
 		return shopIdLandmarkId;
 	}

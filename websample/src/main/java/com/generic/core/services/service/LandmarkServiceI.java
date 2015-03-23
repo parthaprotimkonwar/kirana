@@ -13,4 +13,6 @@ public interface LandmarkServiceI {
 	 * @return
 	 */
 	List<ResponseDto> onboardLandmarks(ExcelSheetObject excelSheetObject);
+	
+	Boolean landmarkPresent(String landmarkId);
 }
