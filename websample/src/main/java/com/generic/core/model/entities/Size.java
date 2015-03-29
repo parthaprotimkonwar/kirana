@@ -97,5 +97,13 @@ public class Size implements Serializable {
 	public void setShopsItems(Set<ShopsItems> shopsItems) {
 		this.shopsItems = shopsItems;
 	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
 	
 }

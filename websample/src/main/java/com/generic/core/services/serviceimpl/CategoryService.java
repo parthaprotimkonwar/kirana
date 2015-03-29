@@ -14,6 +14,7 @@ import com.generic.core.respository.CategoriesRepository;
 import com.generic.core.services.service.CategoriesServiceI;
 import com.generic.core.utilities.Util;
 import com.generic.rest.constants.Constants;
+import com.generic.rest.dto.CategoryDto;
 import com.generic.rest.dto.ResponseDto;
 
 @Service
@@ -23,9 +24,20 @@ public class CategoryService implements CategoriesServiceI{
 	CategoriesRepository categoryRepository;
 	
 	@Override
-	public List<Categories> findAllCategories() {
-		
-		return categoryRepository.findAll();
+	public List<CategoryDto> findAllCategories() {
+		List<Categories> categories = categoryRepository.findAll();
+		return convertIntoCategoryDto(categories);
+	}
+	
+	private List<CategoryDto> convertIntoCategoryDto(List<Categories> categories) {
+		List<CategoryDto> categoryDtos = new ArrayList<CategoryDto>();
+		for(Categories aCategory : categories) {
+			String parentCategory = null;
+			if(aCategory.getParentCategory() != null)
+				parentCategory = aCategory.getParentCategory().getCategoryId();
+			categoryDtos.add(new CategoryDto(aCategory.getCategoryId(), aCategory.getCategoryName(), parentCategory));
+		}
+		return categoryDtos;
 	}
 
 	

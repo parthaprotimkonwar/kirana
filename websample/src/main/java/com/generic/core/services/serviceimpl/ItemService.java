@@ -16,6 +16,7 @@ import com.generic.core.services.service.CategoriesServiceI;
 import com.generic.core.services.service.ItemServiceI;
 import com.generic.core.utilities.Util;
 import com.generic.rest.constants.Constants;
+import com.generic.rest.dto.ItemDto;
 import com.generic.rest.dto.ResponseDto;
 
 @Service
@@ -28,9 +29,18 @@ public class ItemService implements ItemServiceI {
 	CategoriesServiceI cateforyService;
 	
 	@Override
-	public List<Items> findAllItems() {
-
-		return itemRepository.findAll();
+	public List<ItemDto> findAllItems() {
+		List<Items> items = itemRepository.findAll();
+		return convertIntoItemDto(items);
+	}
+	
+	private List<ItemDto> convertIntoItemDto(List<Items> items) {
+		
+		List<ItemDto> itemDtos = new ArrayList<ItemDto>();
+		for(Items anItem : items) {
+			itemDtos.add(new ItemDto(anItem.getItemId(), anItem.getItemName(), anItem.getDescription(), anItem.getBrand(), anItem.getImageName(), null, null));
+		}
+		return itemDtos;
 	}
 
 	@Override

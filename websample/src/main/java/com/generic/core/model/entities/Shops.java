@@ -149,4 +149,12 @@ public class Shops implements Serializable {
 		this.tags = tags;
 	}
 
+	public String getShopAddress() {
+		return shopAddress;
+	}
+
+	public void setShopAddress(String shopAddress) {
+		this.shopAddress = shopAddress;
+	}
+
 }

@@ -15,6 +15,7 @@ import com.generic.core.services.service.SizeServiceI;
 import com.generic.core.utilities.Util;
 import com.generic.rest.constants.Constants;
 import com.generic.rest.dto.ResponseDto;
+import com.generic.rest.dto.SizeDto;
 
 @Service
 public class SizeService implements SizeServiceI{
@@ -22,13 +23,24 @@ public class SizeService implements SizeServiceI{
 	@Resource
 	SizeRepository sizeRepository;
 
-
 	@Override
 	public List<Size> findAllQuantity() {
-		
 		return sizeRepository.findAll();
 	}
+	
+	@Override
+	public List<SizeDto> listsAllSizes() {
+		List<Size> sizes = sizeRepository.findAll();
+		return convertIntoSizeDto(sizes);
+	}
 
+	private List<SizeDto> convertIntoSizeDto(List<Size> sizes) {
+		List<SizeDto> sizeDtos = new ArrayList<SizeDto>();
+		for(Size aSize : sizes) {
+			sizeDtos.add(new SizeDto(aSize.getSizeId(), aSize.getSizeName(), aSize.getPermissibleValues(), aSize.getUnit()));
+		}
+		return sizeDtos;
+	}
 
 	//sizeId == quantiryId
 	@Override

@@ -64,7 +64,6 @@ public class ShopsItemsService implements ShopsItemsServiceI{
 			
 			ShopIdItemId aShopIdItemId = new ShopIdItemId(new Shops(aSheetRow.getShopId()), new Items(aSheetRow.getItemId()));
 			ShopsItems aShopItem = new ShopsItems(aShopIdItemId, aSheetRow.getPrice(), aSheetRow.getDiscount(), aSheetRow.getStatus(), new Size(aSheetRow.getSizeId()));
-			
 			if(!shopService.shopsPresent(aShopIdItemId.getShop().getShopId())) {	//shop not present
 				String errorContent = "ShopId : "  + aShopIdItemId.getShop().getShopId() + " "+ Constants.DATABASE_ERROR_KEY_NOT_PRESENT;
 				String errorResponse = Util.generateErrorString(rowCount, Constants.LOGGER_ERROR, errorContent);

@@ -2,13 +2,17 @@ package com.generic.core.services.service;
 
 import java.util.List;
 
-import com.generic.core.model.entities.Shops;
 import com.generic.core.onboarding.exceldto.ExcelSheetObject;
 import com.generic.rest.dto.ResponseDto;
+import com.generic.rest.dto.ShopDto;
 
 public interface ShopsServiceI {
 
-	List<Shops> findAllShops();
+	/**
+	 * Lists all shops present
+	 * @return
+	 */
+	List<ShopDto> findAllShops();
 
 	//List<ShopDto> findShopsForLocation(String locationId);
 	

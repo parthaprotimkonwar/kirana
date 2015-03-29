@@ -5,6 +5,7 @@ import java.util.List;
 import com.generic.core.model.entities.Size;
 import com.generic.core.onboarding.exceldto.ExcelSheetObject;
 import com.generic.rest.dto.ResponseDto;
+import com.generic.rest.dto.SizeDto;
 
 public interface SizeServiceI {
 
@@ -18,4 +19,6 @@ public interface SizeServiceI {
 	public List<ResponseDto> onboardSize(ExcelSheetObject excelSheetObject);
 	
 	Boolean sizeExist(String sizeId);
+
+	List<SizeDto> listsAllSizes();
 }

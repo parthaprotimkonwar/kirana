@@ -21,6 +21,7 @@ import com.generic.core.utilities.Util;
 import com.generic.core.utilities.UtilConstants;
 import com.generic.rest.constants.Constants;
 import com.generic.rest.dto.ResponseDto;
+import com.generic.rest.dto.ShopDto;
 
 @Service
 public class ShopsService implements ShopsServiceI{
@@ -35,8 +36,17 @@ public class ShopsService implements ShopsServiceI{
 	ShopsLandmarkServiceI shopsLandmarkService;
 	
 	@Override
-	public List<Shops> findAllShops() {
-		return shopsRepository.findAll();
+	public List<ShopDto> findAllShops() {
+		List<Shops> shops =  shopsRepository.findAll();
+		return convertToShopDto(shops);
+	}
+	
+	private List<ShopDto> convertToShopDto(List<Shops> shops) {
+		List<ShopDto> shopDtos = new ArrayList<ShopDto>();
+		for(Shops aShop : shops) {
+			shopDtos.add(new ShopDto(aShop.getShopId(), aShop.getShopName(), aShop.getShopAddress(), aShop.getShopType(), aShop.getEmail(), aShop.getPhoneNumber(), aShop.getOwnerName(), aShop.getTags()));
+		}
+		return shopDtos;
 	}
 
 	@Override

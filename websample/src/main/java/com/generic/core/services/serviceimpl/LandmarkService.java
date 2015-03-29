@@ -21,6 +21,7 @@ import com.generic.core.services.service.LandmarkServiceI;
 import com.generic.core.utilities.Util;
 import com.generic.core.utilities.UtilConstants;
 import com.generic.rest.constants.Constants;
+import com.generic.rest.dto.LandmarkDto;
 import com.generic.rest.dto.ResponseDto;
 
 @Service
@@ -39,6 +40,22 @@ public class LandmarkService implements LandmarkServiceI{
 	public Boolean landmarkPresent(String landmarkId) {
 		return landmarkRepository.findOne(landmarkId) == null ? false : true; 
 	}
+	
+	@Override
+	public List<LandmarkDto> listsLandmarkForArea(String areaId) {
+		Area anArea = new Area(areaId);
+		List<Landmark> landmarks = landmarkRepository.findByArea(anArea);
+		return convertToLandmarkDto(landmarks);
+	}
+	
+	private List<LandmarkDto> convertToLandmarkDto(List<Landmark> landmarks) {
+		List<LandmarkDto> landmarkDtos = new ArrayList<LandmarkDto>();
+		for(Landmark anLandmark : landmarks) {
+			landmarkDtos.add(new LandmarkDto(anLandmark.getLandmarkId(), anLandmark.getLandmarkName(), anLandmark.getArea().getAreaName()));
+		}
+		return landmarkDtos;
+	}
+	
 	/**
 	 * Onboard landmark by adding areas and new cities.
 	 */
@@ -158,6 +175,5 @@ public class LandmarkService implements LandmarkServiceI{
 		}
 		return cityDetailsMap;
 	}
-	
 	
 }
